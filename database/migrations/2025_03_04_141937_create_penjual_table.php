@@ -9,8 +9,9 @@ return new class extends Migration {
     {
         Schema::create('penjual', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_penjual');
+            $table->string('nama');
             $table->string('username_penjual');
+            $table->string('password');
             $table->timestamps();
         });
     }

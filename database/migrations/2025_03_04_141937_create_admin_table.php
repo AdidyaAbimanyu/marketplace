@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('admin', function (Blueprint $table) {
             $table->id();
             $table->string('username_admin');
+            $table->string('password');
             $table->timestamps();
         });
     }

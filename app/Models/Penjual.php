@@ -25,4 +25,9 @@ class Penjual extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function produk()
+    {
+        return $this->hasMany(Produk::class, 'id_penjual');
+    }
 }

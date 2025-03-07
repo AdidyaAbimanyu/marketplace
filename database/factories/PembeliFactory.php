@@ -14,7 +14,7 @@ class PembeliFactory extends Factory
     {
         return [
             'nama' => $this->faker->name(),
-            'username_pembeli' => $this->faker->unique()->userName(),
+            'username' => $this->faker->unique()->userName(),
             'alamat' => $this->faker->address(),
             'password' => Hash::make('password123'), // Bisa diubah sesuai kebutuhan
         ];

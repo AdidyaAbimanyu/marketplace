@@ -13,7 +13,7 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            'username_admin' => $this->faker->userName(),
+            'username' => $this->faker->userName(),
             'password' => Hash::make('password'), // Hash password agar aman
         ];
     }

@@ -13,9 +13,9 @@ class Pembeli extends Authenticatable
     protected $table = 'pembeli';
 
     protected $fillable = [
-        'nama', // Sesuai dengan migrasi
-        'alamat', // Sesuai dengan migrasi
-        'username_pembeli', // Perbaikan typo
+        'nama',
+        'alamat',
+        'username',
         'password',
     ];
 

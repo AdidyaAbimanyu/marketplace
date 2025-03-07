@@ -18,20 +18,20 @@ class UserSeeder extends Seeder
         // User::factory(10)->create();
 
         Admin::factory()->create([
-            'username_admin' => 'admin',
+            'username' => 'admin',
             'password' => 'admin',
         ]);
 
         Penjual::factory()->create([
             'nama' => 'Penjual',
-            'username_penjual' => 'penjual',
+            'username' => 'penjual',
             'password' => 'penjual',
         ]);
 
         Pembeli::factory()->create([
             'nama' => 'Pembeli',
             'alamat' => 'Surakarta',
-            'username_pembeli' => 'pembeli',
+            'username' => 'pembeli',
             'password' => 'pembeli',
         ]);
     }

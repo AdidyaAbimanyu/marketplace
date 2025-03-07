@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('pembeli', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('username_pembeli');
+            $table->string('username')->unique();
             $table->string('alamat');
             $table->string('password');
             $table->timestamps();

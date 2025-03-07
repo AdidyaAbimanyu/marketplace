@@ -14,7 +14,7 @@ class PenjualFactory extends Factory
     {
         return [
             'nama' => $this->faker->name(),
-            'username_penjual' => $this->faker->unique()->userName(),
+            'username' => $this->faker->unique()->userName(),
             'password' => Hash::make('password123'), // Bisa diubah sesuai kebutuhan
         ];
     }

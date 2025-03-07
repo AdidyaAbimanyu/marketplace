@@ -13,8 +13,8 @@ class Penjual extends Authenticatable
     protected $table = 'penjual';
 
     protected $fillable = [
-        'nama', // Sesuai dengan migrasi
-        'username_penjual', // Perbaikan typo
+        'nama',
+        'username',
         'password',
     ];
 

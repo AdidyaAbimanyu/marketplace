@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Pembeli;
 use App\Models\Penjual;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function index()
+    public function auth()
     {
         return view('auth');
     }
@@ -20,27 +22,34 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'role' => 'required|in:Penjual,Pembeli',
         ]);
 
         $credentials = $request->only('username', 'password');
-        $role = $request->role;
 
-        if ($role === 'Penjual') {
+        $user = Admin::where('username', $credentials['username'])->first();
+        $guard = 'admin';
+
+        if (!$user) {
             $user = Penjual::where('username', $credentials['username'])->first();
-        } else {
+            $guard = 'penjual';
+        }
+
+        if (!$user) {
             $user = Pembeli::where('username', $credentials['username'])->first();
+            $guard = 'pembeli';
         }
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
-            if ($role === 'Penjual') {
-                Auth::guard('penjual')->login($user);
-            } else {
-                Auth::guard('pembeli')->login($user);
-            }
+            Auth::guard($guard)->login($user);
+            session(['role' => $guard]);
 
-            session(['role' => $role]); // Menyimpan role dalam session
-            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
+            if ($guard === 'admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Login berhasil sebagai Admin!');
+            } elseif ($guard === 'penjual') {
+                return redirect()->route('penjual.dashboard')->with('success', 'Login berhasil sebagai Penjual!');
+            } else {
+                return redirect()->route('home')->with('success', 'Login berhasil sebagai Pembeli!');
+            }
         }
 
         return back()->with('error', 'Username atau password salah!');
@@ -50,10 +59,25 @@ class AuthController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'username' => 'required|string|unique:' . ($request->role === 'Penjual' ? 'penjual' : 'penjual'),
+            'username' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $penjualExists = DB::table('penjual')->where('username', $value)->exists();
+                    $pembeliExists = DB::table('pembeli')->where('username', $value)->exists();
+                    if ($penjualExists || $pembeliExists) {
+                        session()->flash('error', 'Username sudah digunakan. Silakan pilih username lain.');
+                        $fail('Username sudah digunakan.');
+                    }
+                }
+            ],
             'password' => 'required|min:6',
             'role' => 'required|in:Penjual,Pembeli',
         ]);
+
+        if (session()->has('error')) {
+            return back()->withInput();
+        }
 
         if ($request->role === 'Penjual') {
             Penjual::create([
@@ -75,7 +99,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        session()->flush(); // Hapus semua session termasuk role
+        session()->flush();
 
         return redirect()->route('auth')->with('success', 'Anda telah logout.');
     }

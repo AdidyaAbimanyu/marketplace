@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'penjual', // Atau 'pembeli' tergantung kebutuhan
+        'guard' => 'pembeli',
         'passwords' => 'users',
     ],
 

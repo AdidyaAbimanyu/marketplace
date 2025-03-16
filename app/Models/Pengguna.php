@@ -11,6 +11,8 @@ class Pengguna extends Model
 
     protected $table = 'pengguna';
     protected $primaryKey = 'id_pengguna';
+    protected $keyType = 'int'; // Pastikan primary key adalah integer
+    public $incrementing = true; // Pastikan primary key auto-increment
     protected $fillable = ['nama_pengguna', 'username_pengguna', 'alamat_pengguna', 'password', 'role'];
 
     public function produk()

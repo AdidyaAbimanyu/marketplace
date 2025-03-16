@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@font-face {
+    font-family: 'Menseal';
+    src: url('fonts/Menseal-Regular.ttf') format('truetype');
+    font-weight: 6;
+    font-style: normal;
+}
 
 body {
     font-family: 'Menseal', sans-serif;

@@ -1,10 +1,5 @@
-@font-face {
-    font-family: 'Menseal';
-    src: url('fonts/Menseal-Regular.ttf') format('truetype');
-    font-weight: 6;
-    font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;300;400;500;700;900&display=swap');
 
 body {
-    font-family: 'Menseal', sans-serif;
+    font-family: 'Be Vietnam Pro', sans-serif;
 }

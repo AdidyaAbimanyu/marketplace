@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #2196F3; padding: 10px;">
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #D5EDFF; padding: 10px;">
     <div class="container d-flex justify-content-between align-items-center">
         <!-- Greeting -->
         @if (Auth::check())
-            <span class="text-white">Hi, {{ Auth::user()->nama_pengguna }}! Welcome.</span>
+            <span style="color: #F05A25">Hi, {{ Auth::user()->nama_pengguna }}! Welcome.</span>
         @else
-            <span class="text-white">Hi, there! Welcome.</span>
+            <span style="color: #F05A25">Hi, there! Welcome.</span>
         @endif
 
         <!-- Search Bar -->
@@ -30,7 +30,7 @@
                 </form>
             </div>
         @else
-            <a href="{{ route('auth') }}" class="btn" style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">Login</a>
+            <a href="{{ route('auth') }}" class="btn btn-login" style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">Login</a>
         @endif
     </div>
 </nav>

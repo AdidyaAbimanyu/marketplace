@@ -3,3 +3,9 @@
 body {
     font-family: 'Be Vietnam Pro', sans-serif;
 }
+
+/* Navbar */
+.btn-login:hover {
+    background-color: #F05A25 !important;
+    color: #ffffff !important;
+}

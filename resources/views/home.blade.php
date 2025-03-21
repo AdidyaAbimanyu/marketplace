@@ -23,7 +23,7 @@
         </div>
 
         <!-- Categories Section -->
-        <div id="categories" class="container text-center">
+        <div id="categories" class="container text-center p-5">
             <h2 class="fw-bold">Categories</h2>
             <div class="row row-cols-lg-5 row-cols-md-3 row-cols-2 mt-4 g-3 justify-content-center">
                 @php
@@ -48,7 +48,7 @@
 
                 @foreach ($categories as $category)
                     <div class="col d-flex justify-content-center">
-                        <div class="p-3 mt-5 rounded shadow-sm text-center d-flex flex-column align-items-center justify-content-center"
+                        <div class="category-item p-3 mt-5 rounded shadow-sm text-center d-flex flex-column align-items-center justify-content-center"
                             style="background-color: {{ $category['bg'] }}; width: 148px; height: 148px;">
                             <img src="{{ asset('static/images/' . $category['image']) }}" alt="{{ $category['name'] }}"
                                 class="img-fluid pt-3" style="max-width: 70px; max-height: 70px;">

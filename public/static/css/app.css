@@ -5,7 +5,33 @@ body {
 }
 
 /* Navbar */
+.navbar-brand img {
+    max-height: 100px; /* Sesuaikan ukuran */
+    width: auto;
+}
+
+.navbar {
+    height: 75px; /* Sesuaikan agar konsisten */
+    display: flex;
+    align-items: center;
+}
+
+.navbar .form-control {
+    height: 40px; /* Sesuaikan agar tidak terlalu besar */
+}
+
+.navbar .btn {
+    height: 40px;
+    padding: 5px 15px;
+}
+
 .btn-login:hover {
     background-color: #F05A25 !important;
     color: #ffffff !important;
+}
+
+/* Home */
+.category-item:hover {
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.3);
 }

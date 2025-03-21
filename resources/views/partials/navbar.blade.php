@@ -1,55 +1,35 @@
-<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #D5EDFF; padding: 10px;">
+<nav class="navbar navbar-expand-lg shadow-sm fixed-top" style="background-color: #D5EDFF; padding: 10px;">
     <div class="container d-flex justify-content-between align-items-center">
-        <!-- Greeting -->
-        @if (Auth::check())
-            <span style="color: #F05A25">Hi, {{ Auth::user()->nama_pengguna }}! Welcome.</span>
-        @else
-            <span style="color: #F05A25">Hi, there! Welcome.</span>
-        @endif
+        <!-- Logo -->
+        <a class="navbar-brand" href="{{ route('home') }}">
+            <img src="{{ asset('static/images/icon.png') }}" alt="SPOT" width="80" height="80">
+        </a>
 
         <!-- Search Bar -->
         <form class="d-flex mx-auto" role="search" style="width: 50%;">
-            <input class="form-control me-2" type="search" placeholder="Search for anything..." aria-label="Search">
-            <button class="btn text-white" type="submit" style="background-color: #FF5722">Search</button>
+            <input class="form-control me-2 border border-warning" type="search" placeholder="Search for anything..."
+                aria-label="Search">
+            <button class="btn text-white" type="submit"
+                style="background-color: #FF5722; border-radius: 5px;">Search</button>
         </form>
 
-        <!-- Auth Buttons -->
-        @if (Auth::check())
-            <div class="d-flex align-items-center">
-                @if (Auth::user()->role === 'admin')
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-light me-2">Admin Panel</a>
-                @elseif(Auth::user()->role === 'penjual')
-                    <a href="{{ route('penjual.dashboard') }}" class="btn btn-success me-2">Dashboard Penjual</a>
-                @elseif(Auth::user()->role === 'pembeli')
-                    <a href="{{ route('home') }}" class="btn btn-primary me-2">Dashboard Pembeli</a>
-                @endif
-                <!-- Logout Button -->
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="button" class="btn btn-danger" onclick="confirmLogout(event)">Logout</button>
-                </form>
-            </div>
-        @else
-            <a href="{{ route('auth') }}" class="btn btn-login" style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">Login</a>
-        @endif
+        <!-- Right Section (Cart & User) -->
+        <div class="d-flex align-items-center">
+            <!-- User Icon -->
+            @if (Auth::check())
+                <!-- Cart Icon -->
+                <a href="#" class="me-3 position-relative">
+                    <img src="{{ asset('static/images/cart.png') }}" alt="Cart" width="30">
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                </a>
+                <a href="#">
+                    <img src="{{ asset('static/images/profile.png') }}" alt="User" width="30">
+                </a>
+            @else
+                <a href="{{ route('auth') }}" class="btn btn-login"
+                    style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">Login</a>
+            @endif
+        </div>
     </div>
 </nav>
-
-<script>
-    function confirmLogout(event) {
-        event.preventDefault();
-        Swal.fire({
-            title: "Yakin ingin logout?",
-            text: "Anda akan keluar dari sesi saat ini!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, Logout!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('logout-form').submit();
-            }
-        });
-    }
-</script>

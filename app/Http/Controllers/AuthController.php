@@ -37,7 +37,7 @@ class AuthController extends Controller
             'username_pengguna' => 'required|string|max:255|unique:pengguna,username_pengguna',
             'alamat_pengguna' => 'required|string|max:255',
             'password' => 'required|confirmed',
-            'role' => 'required|in:pembeli,penjual', // Hanya izinkan "pembeli" atau "penjual"
+            'role' => 'required|in:pembeli,penjual',
         ]);
 
         if ($validator->fails()) {

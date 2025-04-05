@@ -17,4 +17,10 @@ Route::middleware(['auth', 'role:penjual'])->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', [AdministratorController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/pengguna/create', [AdministratorController::class, 'add'])->name('admin.add');
+    Route::post('/admin/pengguna/store', [AdministratorController::class, 'store'])->name('admin.store');
+    Route::get('/admin/pengguna/edit/{id}', [AdministratorController::class, 'edit'])->name('admin.edit');
+    Route::put('/admin/pengguna/update/{id}', [AdministratorController::class, 'update'])->name('admin.update');
+    Route::post('/admin/reset/{id}', [AdministratorController::class, 'reset'])->name('admin.reset');
+    Route::delete('/admin/pengguna/delete/{id}', [AdministratorController::class, 'destroy'])->name('admin.delete');
 });

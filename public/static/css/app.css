@@ -20,10 +20,6 @@ body {
     height: 40px; /* Sesuaikan agar tidak terlalu besar */
 }
 
-.navbar .btn {
-    height: 40px;
-    padding: 5px 15px;
-}
 
 .btn-login:hover {
     background-color: #F05A25 !important;
@@ -31,7 +27,25 @@ body {
 }
 
 /* Home */
-.category-item:hover {
+.category-item {
     transition: transform 0.3s ease-in-out;
-    transform: scale(1.3);
+}
+
+.category-item:hover {
+    transform: scale(1.2); /* Bisa 1.1 atau 1.2 sesuai selera */
+}
+
+.btn-cart:hover, .btn-hero:hover {
+    background-color: #F05A25 !important;
+    color: #ffffff !important;
+}
+
+.btn-edit:hover {
+    background-color: #3FA9F5 !important;
+    color: #ffffff !important;
+}
+
+.btn-delete:hover {
+    background-color: red !important;
+    color: #ffffff !important;
 }

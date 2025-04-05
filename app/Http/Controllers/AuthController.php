@@ -23,6 +23,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['username_pengguna' => $credentials['username_pengguna'], 'password' => $credentials['password']])) {
+            session()->flash('success', 'Login berhasil!');
             return redirect()->route('home');
         }
 
@@ -32,16 +33,22 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // Cek apakah username sudah digunakan
+        if (Pengguna::where('username_pengguna', $request->username_pengguna)->exists()) {
+            session()->flash('error', 'Username sudah digunakan, silakan pilih username lain.');
+            return back()->withInput();
+        }
+
         $validator = Validator::make($request->all(), [
             'nama_pengguna' => 'required|string|max:255',
-            'username_pengguna' => 'required|string|max:255|unique:pengguna,username_pengguna',
+            'username_pengguna' => 'required|string|max:255',
             'alamat_pengguna' => 'required|string|max:255',
             'password' => 'required|confirmed',
             'role' => 'required|in:pembeli,penjual',
         ]);
 
         if ($validator->fails()) {
-            session()->flash('error', 'Registrasi gagal! Pastikan semua data diisi dengan benar.');
+            session()->flash('error', 'Registrasi gagal! Periksa kembali data Anda.');
             return back()->withErrors($validator)->withInput();
         }
 

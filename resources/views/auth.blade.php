@@ -39,12 +39,12 @@
                     <input type="text" name="nama_pengguna" id="signup_name" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="signup_address" class="form-label">Alamat</label>
-                    <input type="text" name="alamat_pengguna" id="signup_address" class="form-control" required>
-                </div>
-                <div class="mb-3">
                     <label for="signup_username" class="form-label">Username</label>
                     <input type="text" name="username_pengguna" id="signup_username" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="signup_address" class="form-label">Alamat</label>
+                    <input type="text" name="alamat_pengguna" id="signup_address" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="signup_password" class="form-label">Password</label>

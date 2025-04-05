@@ -8,7 +8,7 @@
     <link rel="icon" href="{{ asset('static/images/icon.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link href="{{ asset('static/css/app.css') }}" rel="stylesheet">
 </head>
 
@@ -21,6 +21,10 @@
 
     @include('partials.footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @stack('scripts')
     <script>
         @if (session('success'))
             Swal.fire({
@@ -39,6 +43,11 @@
                 confirmButtonColor: '#FF5722'
             });
         @endif
+
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
     </script>
 </body>
 

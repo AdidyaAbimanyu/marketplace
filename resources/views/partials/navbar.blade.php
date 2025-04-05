@@ -19,21 +19,29 @@
                 <!-- Cart Icon -->
                 <a href="#" class="me-3 position-relative">
                     <img src="{{ asset('static/images/cart.png') }}" alt="Cart" width="30">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                 </a>
 
                 <!-- Profile Dropdown -->
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{ asset('static/images/profile.png') }}" alt="User" width="30">
+                        <i class="bi bi-caret-down-fill text-dark"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                        @if(Auth::user()->role == 'penjual')
-                            <li><a class="dropdown-item" href="{{ route('penjual.dashboard') }}">Dashboard Penjual</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                        @if (Auth::user()->role == 'penjual')
+                            <li><a class="dropdown-item" href="{{ route('penjual.dashboard') }}">Dashboard Penjual</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                         @elseif(Auth::user()->role == 'admin')
                             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                         @endif
                         <li>
                             <form action="{{ route('logout') }}" method="POST">

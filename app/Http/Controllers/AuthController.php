@@ -68,7 +68,6 @@ class AuthController extends Controller
     {
         Auth::logout();
         session()->flash('success', 'Logout berhasil!');
-        return redirect()->route('auth');
+        return redirect()->route('home');
     }
-
 }

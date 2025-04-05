@@ -3,7 +3,7 @@
 @section('title', 'Authentication')
 
 @section('content')
-    <div class="container mt-5 py-5 d-flex justify-content-center">
+    <div class="container mt-5 py-5 d-flex justify-content-center" data-aos="fade-up">
         <div class="card p-4" style="width: 400px; border-color: #FF5722;">
             <ul class="nav nav-tabs mb-3 justify-content-center">
                 <li class="nav-item">

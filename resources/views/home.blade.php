@@ -6,9 +6,8 @@
     <div class="py-5">
         <!-- Hero Section -->
         <div class="container-fluid py-5 position-relative"
-            style="min-height: 85vh; background: url('{{ asset('static/images/background.svg') }}') no-repeat center bottom / cover;">
-
-            <div class="container py-5 my-5 position-relative">
+            style="min-height: 80vh; background: url('{{ asset('static/images/background.svg') }}') no-repeat center bottom / cover;">
+            <div class="container py-4 position-relative">
                 <div class="row align-items-center justify-content-center text-center">
                     <div class="col-md-6">
                         <p class="text-primary fw-semibold small">THE BEST PLACE TO PLAY</p>
@@ -26,7 +25,7 @@
     </div>
 
     <!-- Categories Section -->
-    <div id="categories" class="container text-center">
+    <div id="categories" class="container text-center" data-aos="fade-up">
         <h2 class="fw-bold">Categories</h2>
         <hr style="width: 200px; margin: auto; border-top: 3px solid #D5EDFF;">
         <div class="row row-cols-lg-5 row-cols-md-3 row-cols-2 mt-4 g-3 justify-content-center">
@@ -64,7 +63,7 @@
     </div>
 
     <!-- Featured Products Section -->
-    <div class="container-fluid py-5 mt-5" style="background-color: #D5EDFF;">
+    <div class="container-fluid py-5 mt-5" style="background-color: #D5EDFF;" data-aos="fade-up">
         <div class="container">
             <!-- Title -->
             <h3 class="text-center fw-bold">Featured Products</h3>
@@ -79,10 +78,10 @@
                             OFF</span>
                         <img src="{{ asset('static/images/feature.png') }}" alt="PS5"
                             class="img-fluid d-block mx-auto">
-                        <p class="mt-2 mb-1 text-warning">★★★★★ (Rp 1.800.000)</p>
+                        <p class="mt-2 mb-1 text-warning">★★★★★ (1.800.000)</p>
                         <h5 class="fw-bold">PS5 Pro 1TB</h5>
                         <p class="text-decoration-line-through text-muted mb-1">Rp 10.000.000</p>
-                        <p class="text-danger fw-bold">Rp 8.999.999</p>
+                        <p class="text-danger fw-bold">Rp 9.000.000</p>
 
                         <div class="d-flex gap-2">
                             <a href="#" class="btn text-white w-100" style="background-color: #F05A25">BUY NOW</a>

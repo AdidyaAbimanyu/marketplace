@@ -7,13 +7,20 @@ use App\Models\Pengguna;
 use Hash;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\DB;
+
 
 class AdministratorController extends Controller
 {
     public function dashboard()
     {
         $pengguna = Pengguna::all();
-        return view('admin.dashboard', compact('pengguna'));
+
+        $jumlahPenggunaPerRole = Pengguna::select('role', DB::raw('count(*) as total'))
+            ->groupBy('role')
+            ->pluck('total', 'role');
+
+        return view('admin.dashboard', compact('pengguna', 'jumlahPenggunaPerRole'));
     }
 
     public function add()

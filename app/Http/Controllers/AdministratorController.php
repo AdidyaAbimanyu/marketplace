@@ -41,7 +41,7 @@ class AdministratorController extends Controller
             'username_pengguna' => 'required|string|max:255',
             'alamat_pengguna' => 'required|string|max:255',
             'password' => 'required|confirmed',
-            'role' => 'required|in:pembeli,penjual',
+            'role' => 'required|in:pembeli,penjual,admin',
         ]);
 
         if ($validator->fails()) {

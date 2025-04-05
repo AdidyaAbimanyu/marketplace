@@ -6,48 +6,55 @@
     <main class="container mt-5 pt-5" data-aos="fade-up">
         <div class="card p-3 mt-3" style="border-radius: 10px;">
             <h5 class="mb-3">Daftar Produk Anda</h5>
-            <table class="table table-bordered">
+            <table class="table table-bordered align-middle" style="object-fit: cover;">
                 <thead>
-                    <tr style="background-color: #f7b17c; color: black;">
-                        <th>Gambar</th>
-                        <th>Nama Produk</th>
-                        <th>Stok</th>
-                        <th>Harga</th>
-                        <th>Aksi</th>
+                    <tr>
+                        <th class="text-center">Product</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($produk as $item)
+                    @forelse ($produk as $item)
                         <tr>
-                            <td>
-                                @if ($item->gambar_produk)
-                                    <img src="{{ asset('storage/' . $item->gambar_produk) }}" alt="Gambar Produk"
-                                        style="height: 50px;">
-                                @else
-                                    Tidak ada gambar
-                                @endif
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <img src="{{ asset('storage/' . $item->gambar_produk) }}" alt="{{ $item->nama_produk }}"
+                                        width="50" height="50" class="rounded shadow-sm" style="object-fit: cover;">
+                                    <div class="text-start">
+                                        <strong>{{ $item->nama_produk }}</strong><br>
+                                        <small class="text-muted">{{ $item->deskripsi_produk }}</small>
+                                    </div>
+                                </div>
                             </td>
-                            <td>{{ $item->nama_produk }}</td>
+                            <td>Rp.{{ number_format($item->harga_produk, 0, ',', '.') }}</td>
                             <td>{{ $item->stok_produk }}</td>
-                            <td>Rp {{ number_format($item->harga_produk, 0, ',', '.') }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="{{ route('penjual.edit', $item->id_produk) }}" class="btn btn-warning btn-sm">
+                            <td class="text-center">
+                                <div class="p-2 border rounded d-inline-flex gap-1">
+                                    <a href="{{ route('penjual.edit', $item->id_produk) }}" class="btn btn-edit"
+                                        style="color: #3FA9F5; background-color: #D5EDFF; border: 1px solid #3FA9F5;">
                                         Edit
                                     </a>
                                     <form action="{{ route('penjual.delete', $item->id_produk) }}" method="POST"
                                         class="form-delete" data-nama="{{ $item->nama_produk }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        <button type="submit" class="btn btn-delete"
+                                            style="color: #CE6A6C; background-color: #FFE2E3; border: 1px solid #CE6A6C;">
+                                            Delete
+                                        </button>
                                     </form>
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Belum ada produk</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
-
             <!-- Tambah Produk -->
             <div class="d-flex justify-content-end mt-2">
                 <a href="{{ route('penjual.add') }}" class="btn btn-outline-secondary">

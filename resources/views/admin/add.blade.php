@@ -43,6 +43,7 @@
                     <select name="role" id="signup_role" class="form-control" required>
                         <option value="pembeli">Pembeli</option>
                         <option value="penjual">Penjual</option>
+                        <option value="admin">Admin</option>
                     </select>
                 </div>
                 <div class="text-center">

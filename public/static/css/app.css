@@ -27,12 +27,16 @@ body {
 }
 
 /* Home */
-.category-item {
+.category-item, .features-item, .show-item {
     transition: transform 0.3s ease-in-out;
 }
 
 .category-item:hover {
     transform: scale(1.2); /* Bisa 1.1 atau 1.2 sesuai selera */
+}
+
+.features-item:hover, .show-item:hover {
+    transform: scale(1.05); /* Bisa 1.1 atau 1.2 sesuai selera */
 }
 
 .btn-cart:hover, .btn-hero:hover {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PenjualController;
+use App\Http\Controllers\ProdukController;
 
 Route::view('/', 'home')->name('home');
 
@@ -10,6 +11,9 @@ Route::get('/auth', [AuthController::class, 'auth'])->name('auth');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/kategori/{kategori}', [ProdukController::class, 'Kategori'])->name('kategori');
+Route::get('/search', [ProdukController::class, 'Search'])->name('search');
 
 Route::middleware('role:penjual')->group(function () {
     Route::get('/penjual', [PenjualController::class, 'dashboard'])->name('penjual.dashboard');

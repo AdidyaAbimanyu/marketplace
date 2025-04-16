@@ -6,9 +6,9 @@
         </a>
 
         <!-- Search Bar -->
-        <form class="d-flex mx-auto" role="search" style="width: 50%;">
+        <form action="{{ route('search') }}" method="GET" class="d-flex mx-auto" role="search" style="width: 50%;">
             <input class="form-control me-2 border border-warning" type="search" placeholder="Search for anything..."
-                aria-label="Search">
+                aria-label="Search" name="search">
             <button class="btn text-white" type="submit"
                 style="background-color: #FF5722; border-radius: 5px;">Search</button>
         </form>

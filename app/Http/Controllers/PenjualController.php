@@ -27,6 +27,7 @@ class PenjualController extends Controller
             'kategori_produk' => 'required|string|max:255',
             'harga_produk' => 'required|numeric|min:0',
             'stok_produk' => 'required|integer|min:1',
+            'deskripsi_produk' => 'nullable|string',
             'gambar_produk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -37,6 +38,7 @@ class PenjualController extends Controller
             'kategori_produk' => $request->kategori_produk,
             'harga_produk' => $request->harga_produk,
             'stok_produk' => $request->stok_produk,
+            'deskripsi_produk' => $request->deskripsi_produk,
             'gambar_produk' => $gambarPath,
             'id_pengguna' => auth()->id(),
         ]);
@@ -58,6 +60,7 @@ class PenjualController extends Controller
             'nama_produk' => 'required|string|max:255',
             'kategori_produk' => 'required|string',
             'harga_produk' => 'required|numeric',
+            'deskripsi_produk' => 'nullable|string',
             'stok_produk' => 'required|integer|min:1',
             'gambar_produk' => 'nullable|image|max:2048',
         ]);

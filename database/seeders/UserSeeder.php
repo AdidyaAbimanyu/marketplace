@@ -42,34 +42,42 @@ class UserSeeder extends Seeder
             ],
         ]);
 
-        // Brand Users (1 brand per kategori)
         $brands = [
-            ['nama' => 'Apple', 'kategori' => 'elektronik'],
-            ['nama' => 'Maybelline', 'kategori' => 'makeup'],
-            ['nama' => 'Whiskas', 'kategori' => 'pet'],
-            ['nama' => 'Nike', 'kategori' => 'sport'],
-            ['nama' => 'Zara', 'kategori' => 'fashion'],
-            ['nama' => 'IKEA', 'kategori' => 'perlengkapan rumah'],
-            ['nama' => 'MamyPoko', 'kategori' => 'ibu & bayi'],
-            ['nama' => 'Traveloka', 'kategori' => 'travel'],
-            ['nama' => 'Herbalife', 'kategori' => 'kesehatan'],
-            ['nama' => 'SK-II', 'kategori' => 'skincare'],
-            ['nama' => 'Toyota', 'kategori' => 'otomotif'],
-            ['nama' => 'Funko', 'kategori' => 'hobi & koleksi'],
-            ['nama' => 'Faber-Castell', 'kategori' => 'perlengkapan sekolah'],
-            ['nama' => 'Canon', 'kategori' => 'fotografi'],
-            ['nama' => 'Indomie', 'kategori' => 'makanan & minuman'],
+            'elektronik' => 'Apple',
+            'makeup' => 'Maybelline',
+            'pet' => 'Whiskas',
+            'sport' => 'Nike',
+            'fashion' => 'Zara',
+            'perlengkapan rumah' => 'IKEA',
+            'ibu & bayi' => 'Pampers',
+            'travel' => 'Samsonite',
+            'kesehatan' => 'Kalbe',
+            'skincare' => 'SK-II',
+            'otomotif' => 'Honda',
+            'hobi & koleksi' => 'LEGO',
+            'perlengkapan sekolah' => 'Faber-Castell',
+            'fotografi' => 'Canon',
+            'makanan & minuman' => 'Indomie',
         ];
 
-        foreach ($brands as $brand) {
+        foreach ($brands as $kategori => $brand) {
             Pengguna::create([
-                'nama_pengguna' => $brand['nama'],
-                'username_pengguna' => strtolower($brand['nama']),
-                'alamat_pengguna' => 'Alamat ' . $brand['nama'],
+                'nama_pengguna' => $brand,
+                'username_pengguna' => strtolower($brand),
+                'alamat_pengguna' => 'Jl. Brand ' . $brand,
                 'password' => Hash::make('123'),
                 'role' => 'penjual',
-                'created_at' => now(),
-                'updated_at' => now(),
+            ]);
+        }
+
+        // Tambahkan 10 user pembeli untuk review
+        for ($i = 1; $i <= 10; $i++) {
+            Pengguna::create([
+                'nama_pengguna' => 'Pembeli ' . $i,
+                'username_pengguna' => 'pembeli_' . $i,
+                'alamat_pengguna' => 'Jl. Pembeli ' . $i,
+                'password' => Hash::make('123'),
+                'role' => 'pembeli',
             ]);
         }
     }

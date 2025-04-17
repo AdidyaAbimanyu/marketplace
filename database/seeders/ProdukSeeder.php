@@ -3,56 +3,50 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Pengguna;
 use App\Models\Produk;
+use App\Models\Pengguna;
 
 class ProdukSeeder extends Seeder
 {
     public function run(): void
     {
-        // Ambil semua pengguna brand penjual (kecuali admin/penjual/pembeli biasa)
-        $brandUsers = Pengguna::where('role', 'penjual')
-            ->whereNotIn('username_pengguna', ['penjual', 'admin', 'pembeli'])
-            ->get();
+        // Brand => Kategori
+        $brandKategoriMap = [
+            'Apple' => 'elektronik',
+            'Maybelline' => 'makeup',
+            'Whiskas' => 'pet',
+            'Nike' => 'sport',
+            'Zara' => 'fashion',
+            'IKEA' => 'perlengkapan rumah',
+            'Pampers' => 'ibu & bayi',
+            'Samsonite' => 'travel',
+            'Kalbe' => 'kesehatan',
+            'SK-II' => 'skincare',
+            'Honda' => 'otomotif',
+            'LEGO' => 'hobi & koleksi',
+            'Faber-Castell' => 'perlengkapan sekolah',
+            'Canon' => 'fotografi',
+            'Indomie' => 'makanan & minuman',
+        ];
 
-        foreach ($brandUsers as $pengguna) {
-            for ($i = 1; $i <= 10; $i++) {
-                Produk::create([
-                    'nama_produk' => $pengguna->nama_pengguna . " Produk " . $i,
-                    'kategori_produk' => $this->getKategoriFromBrand($pengguna->nama_pengguna),
-                    'deskripsi_produk' => "Deskripsi produk $i dari brand " . $pengguna->nama_pengguna,
-                    'stok_produk' => rand(5, 50),
-                    'harga_produk' => rand(10000, 1000000),
-                    'review_produk' => rand(10, 1000),
-                    'rating_produk' => rand(1, 5),
-                    'id_pengguna' => $pengguna->id_pengguna,
-                    'gambar_produk' => 'default.png',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+        foreach ($brandKategoriMap as $brand => $kategori) {
+            $penjual = Pengguna::where('nama_pengguna', $brand)->first();
+
+            if ($penjual) {
+                for ($i = 1; $i <= 10; $i++) {
+                    Produk::create([
+                        'nama_produk' => "Produk $i dari $brand",
+                        'kategori_produk' => $kategori,
+                        'deskripsi_produk' => "Deskripsi produk $i kategori $kategori",
+                        'jumlah_review_produk' => 0,
+                        'rating_produk' => 0.0,
+                        'stok_produk' => rand(10, 100),
+                        'harga_produk' => rand(10000, 100000),
+                        'id_pengguna' => $penjual->id_pengguna,
+                        'gambar_produk' => 'produk/default.png',
+                    ]);
+                }
             }
         }
-    }
-
-    private function getKategoriFromBrand(string $brand): string
-    {
-        return match (strtolower($brand)) {
-            'apple' => 'elektronik',
-            'maybelline' => 'makeup',
-            'whiskas' => 'pet',
-            'nike' => 'sport',
-            'zara' => 'fashion',
-            'ikea' => 'perlengkapan rumah',
-            'mamypoko' => 'ibu & bayi',
-            'traveloka' => 'travel',
-            'herbalife' => 'kesehatan',
-            'sk-ii' => 'skincare',
-            'toyota' => 'otomotif',
-            'funko' => 'hobi & koleksi',
-            'faber-castell' => 'perlengkapan sekolah',
-            'canon' => 'fotografi',
-            'indomie' => 'makanan & minuman',
-            default => 'lainnya',
-        };
     }
 }

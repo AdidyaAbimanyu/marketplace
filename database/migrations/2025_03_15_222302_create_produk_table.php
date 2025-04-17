@@ -11,9 +11,11 @@ return new class extends Migration {
             $table->string('nama_produk');
             $table->bigInteger('stok_produk');
             $table->bigInteger('harga_produk');
-            $table->text('review_produk')->nullable();
-            $table->decimal('rating_produk', 2, 1)->default(0.0);
-            $table->unsignedBigInteger('id_pengguna'); // Relasi ke pengguna
+            $table->string('kategori_produk');
+            $table->string('deskripsi_produk')->nullable();
+            $table->bigInteger('jumlah_review_produk')->nullable();
+            $table->decimal('rating_produk', 2, 1)->default(0.0)->nullable();
+            $table->unsignedBigInteger('id_pengguna');
             $table->string('gambar_produk');
             $table->timestamps();
 

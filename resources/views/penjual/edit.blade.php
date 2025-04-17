@@ -68,6 +68,12 @@
                     </div>
                 </div>
 
+                <!-- Deskripsi Produk -->
+                <div class="mb-3">
+                    <label for="deskripsi_produk" class="form-label">Deskripsi Produk:</label>
+                    <textarea name="deskripsi_produk" id="deskripsi_produk" class="form-control" rows="4" required>{{ $produk->deskripsi_produk }}</textarea>
+                </div>
+
                 <!-- Upload Gambar -->
                 <div class="mb-4">
                     <label for="gambar_produk" class="form-label d-block">Foto Produk</label>

@@ -13,7 +13,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/search', [ProdukController::class, 'Search'])->name('search');
+Route::get('/search', [ProdukController::class, 'search'])->name('search');
 
 Route::middleware('role:penjual')->group(function () {
     Route::get('/penjual', [PenjualController::class, 'dashboard'])->name('penjual.dashboard');

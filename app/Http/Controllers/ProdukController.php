@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
-    public function Search(Request $request)
+    public function search(Request $request)
     {
         $produk = Produk::query();
 

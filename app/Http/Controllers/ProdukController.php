@@ -9,40 +9,6 @@ use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
-    public function Kategori($kategori)
-    {
-        $namaKategori = collect([
-            'Elektronik',
-            'Makeup',
-            'Pet',
-            'Sport',
-            'Fashion',
-            'Perlengkapan rumah',
-            'Ibu & bayi',
-            'Travel',
-            'Kesehatan',
-            'Skincare',
-            'Otomotif',
-            'Hobi & Koleksi',
-            'Perlengkapan Sekolah',
-            'Fotografi',
-            'Makanan & Minuman',
-        ])->first(function ($nama) use ($kategori) {
-            return Str::slug($nama) === $kategori;
-        });
-
-        if (!$namaKategori) {
-            abort(404); // bisa diganti redirect
-        }
-
-        $produk = Produk::where('kategori_produk', $namaKategori)->get();
-
-        return view('show', [
-            'produk' => $produk,
-            'title' => "Kategori: $namaKategori"
-        ]);
-    }
-
     public function Search(Request $request)
     {
         $produk = Produk::query();

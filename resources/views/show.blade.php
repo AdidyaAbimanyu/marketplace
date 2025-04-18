@@ -18,8 +18,7 @@
                             </div>
                             <p class="fw-semibold mb-1 small">{{ $item->nama_produk }}</p>
                             <div class="d-flex">
-                                <span class="text-muted text-decoration-line-through me-2 small">Rp.{{ number_format($item->harga_coret) }}</span>
-                                <span class="text-primary fw-bold small">Rp.{{ number_format($item->harga_produk) }}</span>
+                                <span class="text-primary fw-bold small">Rp.{{ number_format($item->harga_produk, 0, ',', '.') }}</span>
                             </div>
                         </div>
                     </div>

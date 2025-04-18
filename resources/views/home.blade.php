@@ -31,7 +31,6 @@
         <div class="row row-cols-lg-5 row-cols-md-3 row-cols-2 mt-4 g-3 justify-content-center"
             style="max-width: 1000px; margin: auto;">
             @php
-                use Illuminate\Support\Str;
                 $categories = [
                     ['name' => 'Elektronik', 'image' => 'elektronik.png', 'bg' => '#F0FDEB'],
                     ['name' => 'Makeup', 'image' => 'makeup.png', 'bg' => '#FFF1EA'],
@@ -53,8 +52,7 @@
 
             @foreach ($categories as $category)
                 <div class="col d-flex justify-content-center">
-                    <a href="{{ route('kategori', ['kategori' => Str::slug($category['name'])]) }}"
-                        class="text-decoration-none text-dark">
+                    <a href="{{ route('search', ['search' => $category['name']]) }}" class="text-decoration-none text-dark">
                         <div class="category-item p-3 mt-5 rounded shadow-sm text-center d-flex flex-column align-items-center justify-content-center"
                             style="background-color: {{ $category['bg'] }}; width: 148px; height: 148px;">
                             <img src="{{ asset('static/images/' . $category['image']) }}" alt="{{ $category['name'] }}"
@@ -79,9 +77,6 @@
                 <div class="col-md-4 d-flex" style="min-height: 520px;">
                     <div class="p-3 bg-white rounded shadow-sm w-100 d-flex flex-column justify-content-between features-item"
                         style="position: relative; height: 100%;">
-                        <!-- Discount Tag -->
-                        <span class="badge bg-primary text-white position-absolute" style="top: 10px; left: 10px;">10%
-                            OFF</span>
 
                         <img src="{{ asset('static/images/feature.png') }}" alt="PS5"
                             class="img-fluid d-block mx-auto">
@@ -89,7 +84,6 @@
                         <div class="mt-2 text-center">
                             <p class="text-warning mb-1">★★★★★ (1.800.000)</p>
                             <h5 class="fw-bold">PS5 Pro 1TB</h5>
-                            <p class="text-decoration-line-through text-muted mb-1">Rp 10.000.000</p>
                             <p class="fw-bold" style="color: #3FA9F5">Rp 9.000.000</p>
                         </div>
 
@@ -108,11 +102,7 @@
                     <div class="row g-4 w-100">
                         @for ($i = 0; $i < 6; $i++)
                             <div class="col-md-4 d-flex">
-                                <div
-                                    class="p-3 bg-white rounded shadow-sm position-relative w-100 d-flex flex-column justify-content-between features-item">
-                                    <!-- Discount Tag -->
-                                    <span class="badge bg-primary text-white position-absolute"
-                                        style="top: 10px; left: 10px;">5% OFF</span>
+                                <div class="p-3 bg-white rounded shadow-sm position-relative w-100 d-flex flex-column justify-content-between features-item">
 
                                     <!-- Product Image -->
                                     <img src="{{ asset('static/images/feature.png') }}" alt="Product"
@@ -122,7 +112,6 @@
                                     <div class="mt-2 text-center">
                                         <p class="text-warning mb-1">★★★★☆ (1.200)</p>
                                         <h6 class="fw-bold mb-1">Gaming Keyboard</h6>
-                                        <p class="text-decoration-line-through text-muted mb-1">Rp 1.000.000</p>
                                         <p class="fw-bold mb-0" style="color: #3FA9F5">Rp 950.000</p>
                                     </div>
                                 </div>

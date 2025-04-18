@@ -73,52 +73,65 @@
             <hr class="mb-5 pb-5" style="width: 300px; margin: auto; border-top: 3px solid #FCD1B5;">
 
             <div class="row mt-4 justify-content-center">
-                <!-- Left Side: Product Highlight -->
-                <div class="col-md-4 d-flex" style="min-height: 520px;">
-                    <div class="p-3 bg-white rounded shadow-sm w-100 d-flex flex-column justify-content-between features-item"
-                        style="position: relative; height: 100%;">
+                <!-- Left Side: Top Product -->
+                @if ($featuredProducts->count())
+                    @php
+                        $topProduct = $featuredProducts->first();
+                        $otherProducts = $featuredProducts->skip(1);
+                    @endphp
 
-                        <img src="{{ asset('static/images/feature.png') }}" alt="PS5"
-                            class="img-fluid d-block mx-auto">
+                    <div class="col-md-4 d-flex" style="min-height: 520px;">
+                        <div class="p-3 bg-white rounded shadow-sm w-100 d-flex flex-column justify-content-between features-item"
+                            style="position: relative; height: 100%;">
 
-                        <div class="mt-2 text-center">
-                            <p class="text-warning mb-1">★★★★★ (1.800.000)</p>
-                            <h5 class="fw-bold">PS5 Pro 1TB</h5>
-                            <p class="fw-bold" style="color: #3FA9F5">Rp 9.000.000</p>
-                        </div>
+                            <img src="{{ asset('storage/' . $topProduct->gambar_produk) }}"
+                                alt="{{ $topProduct->nama_produk }}" class="img-fluid d-block mx-auto">
 
-                        <div class="d-flex gap-2 mt-3">
-                            <a href="#" class="btn text-white w-100" style="background-color: #F05A25">BUY NOW</a>
-                            <a href="#" class="btn btn-cart"
-                                style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">
-                                <i class="bi bi-cart"></i>
-                            </a>
+                            <div class="mt-2 text-center">
+                                <p class="text-warning mb-1">★★★★★ ({{ number_format($topProduct->jumlah_review_produk) }})
+                                </p>
+                                <h5 class="fw-bold">{{ $topProduct->nama_produk }}</h5>
+                                <p class="fw-bold" style="color: #3FA9F5">Rp
+                                    {{ number_format($topProduct->harga_produk, 0, ',', '.') }}</p>
+                            </div>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <a href="#" class="btn text-white w-100" style="background-color: #F05A25">BUY NOW</a>
+                                <a href="#" class="btn btn-cart"
+                                    style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">
+                                    <i class="bi bi-cart"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Right Side: Grid of Other Products -->
-                <div class="col-md-8 d-flex" style="min-height: 520px;">
-                    <div class="row g-4 w-100">
-                        @for ($i = 0; $i < 6; $i++)
-                            <div class="col-md-4 d-flex">
-                                <div class="p-3 bg-white rounded shadow-sm position-relative w-100 d-flex flex-column justify-content-between features-item">
+                    <!-- Right Side: Other Products -->
+                    <div class="col-md-8 d-flex" style="min-height: 520px;">
+                        <div class="row g-4 w-100">
+                            @foreach ($otherProducts as $product)
+                                <div class="col-md-4 d-flex">
+                                    <div
+                                        class="p-3 bg-white rounded shadow-sm position-relative w-100 d-flex flex-column justify-content-between features-item">
 
-                                    <!-- Product Image -->
-                                    <img src="{{ asset('static/images/feature.png') }}" alt="Product"
-                                        class="img-fluid d-block mx-auto">
+                                        <img src="{{ asset('storage/' . $product->gambar_produk) }}"
+                                            alt="{{ $product->nama_produk }}" class="img-fluid d-block mx-auto">
 
-                                    <!-- Product Details -->
-                                    <div class="mt-2 text-center">
-                                        <p class="text-warning mb-1">★★★★☆ (1.200)</p>
-                                        <h6 class="fw-bold mb-1">Gaming Keyboard</h6>
-                                        <p class="fw-bold mb-0" style="color: #3FA9F5">Rp 950.000</p>
+                                        <div class="mt-2 text-center">
+                                            <p class="text-warning mb-1">
+                                                {{ str_repeat('★', round($product->rating_produk)) }}{{ str_repeat('☆', 5 - round($product->rating_produk)) }}
+                                                ({{ number_format($product->jumlah_review_produk) }})
+                                            </p>
+                                            <h6 class="fw-bold mb-1">{{ $product->nama_produk }}</h6>
+                                            <p class="fw-bold mb-0" style="color: #3FA9F5">Rp
+                                                {{ number_format($product->harga_produk, 0, ',', '.') }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endfor
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+                @endif
+
                 <!-- Show all products -->
                 <div class="text-end mt-3">
                     <a href="#" class="fw-bold" style="color: #F05A25">Show all product →</a>

@@ -13,8 +13,10 @@
                         <div class="bg-white rounded shadow-sm p-3 h-100 d-flex flex-column show-item">
                             <img src="{{ asset('storage/' . $item->gambar_produk) }}" class="product-image img-fluid mb-3" alt="{{ $item->nama_produk }}">
                             <div class="d-flex align-items-center mb-2">
-                                <div class="text-warning me-2 small">★★★★★</div>
-                                <small class="text-muted">{{ $item->review_produk }}</small>
+                                <p class="text-warning mb-1">
+                                    {{ str_repeat('★', round($item->rating_produk)) }}{{ str_repeat('☆', 5 - round($item->rating_produk)) }}
+                                    ({{ number_format($item->jumlah_review_produk) }})
+                                </p>
                             </div>
                             <p class="fw-semibold mb-1 small">{{ $item->nama_produk }}</p>
                             <div class="d-flex">

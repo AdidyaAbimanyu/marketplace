@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\PenjualController;
 use App\Http\Controllers\ProdukController;
 
-Route::view('/', 'home')->name('home');
+Route::get('/', [PembeliController::class, 'index'])->name('home');
 
 Route::get('/auth', [AuthController::class, 'auth'])->name('auth');
 Route::post('/login', [AuthController::class, 'login'])->name('login');

@@ -17,10 +17,11 @@
         <div class="d-flex align-items-center">
             @if (Auth::check())
                 <!-- Cart Icon -->
-                <a href="#" class="me-3 position-relative">
+                <a href="{{ route('cart.index') }}" class="me-3 position-relative">
                     <img src="{{ asset('static/images/cart.png') }}" alt="Cart" width="30">
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ $cartCount ?? 0 }}
+                    </span>
                 </a>
 
                 <!-- Profile Dropdown -->

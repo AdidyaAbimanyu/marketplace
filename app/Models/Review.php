@@ -9,15 +9,23 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $table = 'review';
-    protected $primaryKey = 'id_review';
-    protected $fillable = ['isi_review', 'rating_review', 'id_produk', 'id_pengguna'];
+    protected $table = 'reviews';
+
+    protected $fillable = [
+        'produk_id',
+        'pengguna_id',
+        'rating',
+        'komentar',
+        'foto',
+    ];
+
     public function produk()
     {
-        return $this->belongsTo(Produk::class, 'id_produk');
+        return $this->belongsTo(Produk::class, 'produk_id');
     }
+
     public function pengguna()
     {
-        return $this->belongsTo(Pengguna::class, 'id_pengguna');
+        return $this->belongsTo(Pengguna::class, 'pengguna_id');
     }
 }

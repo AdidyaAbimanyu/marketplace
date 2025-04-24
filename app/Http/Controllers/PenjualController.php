@@ -68,8 +68,8 @@ class PenjualController extends Controller
         // Jika ada gambar baru diupload
         if ($request->hasFile('gambar_produk')) {
             // Optional: hapus gambar lama
-            if ($produk->gambar_produk && \Storage::exists('public/' . $produk->gambar_produk)) {
-                \Storage::delete('public/' . $produk->gambar_produk);
+            if ($produk->gambar_produk && Storage::exists('public/' . $produk->gambar_produk)) {
+                Storage::delete('public/' . $produk->gambar_produk);
             }
 
             $path = $request->file('gambar_produk')->store('produk', 'public');

@@ -65,9 +65,9 @@
                     </div>
                 </div>
             </div>
-            <form action="cart.checkout">
-                <button type="submit" id="signUpBtn" class="btn w-100" style="background-color: #FF5722; color: white;" disabled>CHECKOUT →</button>
-            </form>
+            <a href="{{ route('cart.checkout') }}" class="text-decoration-none">
+                <button type="submit" id="signUpBtn" class="btn w-100" style="background-color: #FF5722; color: white;">CHECKOUT →</button>
+            </a>
         </div>
     </div>
 @endsection

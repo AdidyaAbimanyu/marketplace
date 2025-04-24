@@ -11,7 +11,9 @@ return new class extends Migration {
             $table->id('id_detail_pesanan');
             $table->string('nama_produk');
             $table->string('status_detail_pesanan'); // pending, processed, delivered
+            $table->bigInteger('jumlah_produk');
             $table->bigInteger('total_harga');
+            $table->string('alamat');
             $table->unsignedBigInteger('id_pengguna'); // pengguna yang pesan
             $table->unsignedBigInteger('id_produk'); // produk yang dibeli
             $table->timestamps();

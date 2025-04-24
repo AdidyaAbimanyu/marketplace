@@ -1,0 +1,34 @@
+@extends('layouts.app')
+
+@section('title', 'Order History')
+
+@section('content')
+    <div class="container py-5" style="margin-top: 100px">
+        <h4 class="mb-4">Order History</h4>
+
+        @forelse ($orders as $order)
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Order #{{ $order->id_detail_pesanan }}</h5>
+                    <p class="card-text mb-2">
+                        <strong>Status:</strong> {{ ucfirst($order->status_detail_pesanan) }} <br>
+                        <strong>Address:</strong> {{ $order->alamat }} <br>
+                        <strong>Total:</strong> Rp{{ number_format($order->total_harga, 0, ',', '.') }} <br>
+                        <strong>Items:</strong> {{ $order->jumlah_produk }} produk<br>
+                        <strong>Order Date:</strong> {{ $order->created_at->format('d M Y H:i') }}
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        {{-- Ganti dengan rute yang sesuai jika kamu membuat halaman detail tracking --}}
+                        <a href="{{ route('pembeli.order-tracking', ['id' => $order->id_detail_pesanan]) }}"
+                            class="btn btn-sm btn-outline-primary">
+                            Detail
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="alert alert-info text-center">You have no orders yet.</div>
+        @endforelse
+    </div>
+@endsection

@@ -43,6 +43,13 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+                        @elseif(Auth::user()->role == 'pembeli')
+                            <li><a class="dropdown-item" href="{{ route('pembeli.history-order') }}">Riwayat Order</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            \
                         @endif
                         <li>
                             <form action="{{ route('logout') }}" method="POST">

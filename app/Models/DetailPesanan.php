@@ -11,7 +11,7 @@ class DetailPesanan extends Model
 
     protected $table = 'detail_pesanan';
     protected $primaryKey = 'id_detail_pesanan';
-    protected $fillable = ['nama_produk', 'status_detail_pesanan', 'total_harga', 'id_pengguna', 'id_produk'];
+    protected $fillable = ['nama_produk', 'status_detail_pesanan', 'total_harga', 'jumlah_produk', 'alamat', 'id_pengguna', 'id_produk'];
 
     public function pengguna()
     {

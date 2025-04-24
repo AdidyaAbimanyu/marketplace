@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailPesanan;
 use App\Models\Produk;
 use App\Models\Keranjang;
+use App\Models\Review;
+use DB;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -92,6 +95,212 @@ class ProdukController extends Controller
         }
 
         return redirect()->route('cart.index')->with('success', 'Produk berhasil ditambahkan ke keranjang');
+    }
+
+    // public function buyNowCheckout(Request $request)
+    // {
+    //     // 1) Validate incoming data
+    //     $request->validate([
+    //         'product_id' => 'required|exists:produk,id_produk',
+    //         'quantity' => 'required|integer|min:1',
+    //     ]);
+
+    //     // 2) Fetch product
+    //     $product = Produk::findOrFail($request->product_id);
+
+    //     // 3) Calculate total price
+    //     $totalPrice = $product->harga_produk * $request->quantity;
+
+    //     return view('checkout', compact('product', 'totalPrice'));
+    // }
+
+    public function checkout()
+    {
+        $cartItems = Keranjang::with('produk')
+            ->where('id_pengguna', auth()->id())
+            ->get();
+
+        $subtotal = Keranjang::where('id_pengguna', auth()->id())
+            ->sum('total_harga');
+
+        $shippingCost = 0;
+
+        $discount = 0;
+
+        $tax = 0;
+
+        $totalPrice = $subtotal + $shippingCost - $discount + $tax;
+
+        $data = [
+            'subtotal' => $subtotal,
+            'shipping_cost' => $shippingCost,
+            'discount' => $discount,
+            'tax' => $tax,
+            'total_price' => $totalPrice,
+        ];
+
+        return view('checkout', compact('cartItems', 'data'));
+    }
+
+    public function paymentProcess(Request $request)
+    {
+        $request->validate([
+            'address' => 'required|string|max:255',
+            'items' => 'required|array|min:1',
+            'items.*.id_produk' => 'required|integer|exists:produk,id_produk',
+            'items.*.quantity' => 'required|integer|min:1',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $totalHarga = 0;
+            $produkPesanan = [];
+
+            foreach ($request->items as $item) {
+                $produk = Produk::where('id_produk', $item['id_produk'])
+                    ->where('stok_produk', '>', 0)
+                    ->first();
+
+                if (!$produk) {
+                    throw new \Exception('Produk tidak ditemukan atau stok habis: ' . $item['id_produk']);
+                }
+
+                if ($produk->stok_produk < $item['quantity']) {
+                    throw new \Exception('Stok tidak cukup untuk produk: ' . $produk->nama_produk);
+                }
+
+                // Hitung subtotal dan update stok
+                $subtotal = $produk->harga_produk * $item['quantity'];
+                $totalHarga += $subtotal;
+
+                $produk->update(['stok_produk' => $produk->stok_produk - $item['quantity']]);
+
+                // Buat satu baris detail_pesanan untuk produk ini
+                DetailPesanan::create([
+                    'id_pengguna' => auth()->id(),
+                    'id_produk' => $produk->id_produk,
+                    'jumlah_produk' => $item['quantity'],
+                    'alamat' => $request->address,
+                    'nama_produk' => $produk->nama_produk,
+                    'status_detail_pesanan' => 'on_delivery',
+                    'total_harga' => $subtotal,
+                ]);
+
+                // Simpan data untuk tampilan
+                $produkPesanan[] = [
+                    'nama_produk' => $produk->nama_produk,
+                    'jumlah' => $item['quantity'],
+                    'harga' => $produk->harga_produk,
+                    'subtotal' => $subtotal,
+                ];
+            }
+
+            // Kosongkan keranjang
+            Keranjang::where('id_pengguna', auth()->id())->delete();
+
+            DB::commit();
+
+            $subtotal = $totalHarga;
+            $shippingCost = 0;
+            $discount = 0;
+            $tax = 0;
+            $totalPrice = $subtotal + $shippingCost - $discount + $tax;
+
+            $data = [
+                'produk' => $produkPesanan,
+                'subtotal' => $subtotal,
+                'shipping_cost' => $shippingCost,
+                'discount' => $discount,
+                'tax' => $tax,
+                'total_price' => $totalPrice,
+            ];
+
+            return view('payment-success', compact('data'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['items' => $e->getMessage()]);
+        }
+    }
+
+    public function historyOrder()
+    {
+        $orders = DetailPesanan::where('id_pengguna', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('history-order', compact('orders'));
+    }
+
+    public function formReview($id)
+    {
+        $product = Produk::findOrFail($id);
+
+        return view('pembeli.review', compact('product'));
+    }
+
+    public function submitReview(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:produk,id_produk',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $fotoPath = null;
+
+        if ($request->hasFile('photo')) {
+            $fotoPath = $request->file('photo')->store('reviews', 'public');
+        }
+
+        Review::create([
+            'produk_id' => $request->product_id,
+            'pengguna_id' => auth()->id(),
+            'rating' => $request->rating,
+            'komentar' => $request->review,
+            'foto' => $fotoPath,
+        ]);
+
+        return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
+
+        if ($alreadyReviewed) {
+            return redirect()->back()->withErrors(['review' => 'Kamu sudah memberikan ulasan untuk produk ini.']);
+        }
+    }
+
+    public function storeReview(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string',
+            'photo' => 'nullable|image|max:2048',
+        ]);
+
+        $review = new Review();
+        $review->produk_id = $id;
+        $review->pengguna_id = auth()->id();
+        $review->rating = $validated['rating'];
+        $review->komentar = $validated['review'];
+
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('reviews', 'public');
+            $review->foto = $path;
+        }
+
+        $review->save();
+
+        return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
+    }
+
+    public function orderTracking($id)
+    {
+        $order = DetailPesanan::where('id_detail_pesanan', $id)
+            ->where('id_pengguna', auth()->id())
+            ->firstOrFail();
+
+        return view('order-tracking', compact('order'));
     }
 
     public function destroy($cartId)

@@ -23,6 +23,9 @@ Route::middleware('auth')->group(function (){
     Route::post('/cart/add', [ProdukController::class, 'add'])->name('cart.add');
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');
     Route::get('/cart/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/payment-process', [ProdukController::class, 'paymentProcess'])->name('pembeli.payment-process');
+    Route::get('/history-order', [ProdukController::class, 'historyOrder'])->name('pembeli.history-order');
+    Route::get('/order-tracking/{id}', [ProdukController::class, 'orderTracking'])->name('pembeli.order-tracking');
 });
 
 Route::middleware('role:penjual')->group(function () {

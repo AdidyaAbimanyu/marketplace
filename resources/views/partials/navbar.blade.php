@@ -16,15 +16,11 @@
         <!-- Right Section (Cart & User) -->
         <div class="d-flex align-items-center">
             @if (Auth::check())
-                @php
-                    $carts = \App\Models\Keranjang::where('id_pengguna', auth()->id())->get();
-                    $cartCount = $carts->count();
-                @endphp
                 <!-- Cart Icon -->
-                <a href="{{ route('pembeli.cart') }}" class="me-3 position-relative">
+                <a href="#" class="me-3 position-relative">
                     <img src="{{ asset('static/images/cart.png') }}" alt="Cart" width="30">
                     <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                 </a>
 
                 <!-- Profile Dropdown -->
@@ -43,11 +39,6 @@
                             </li>
                         @elseif(Auth::user()->role == 'admin')
                             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                        @elseif(Auth::user()->role == 'pembeli')
-                            <li><a class="dropdown-item" href="{{ route('pembeli.history-order') }}">Riwayat Order</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

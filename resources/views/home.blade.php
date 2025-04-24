@@ -4,27 +4,25 @@
 
 @section('content')
     <div class="py-5">
-       @if($bestProduct != null)
-         <!-- Hero Section -->
-         <div class="container-fluid py-5 position-relative"
-         style="min-height: 80vh; background: url('{{ asset('static/images/background.svg') }}') no-repeat center bottom / cover;">
-         <div class="container py-4 position-relative">
-             <div class="row align-items-center justify-content-center text-center">
-                 <div class="col-md-6">
-                     <p class="text-primary fw-semibold small">THE BEST PLACE TO PLAY</p>
-                     <h1 class="fw-bold">{{ $bestProduct->nama_produk }}</h1>
-                     <p>Save up to 50%</p>
-                     <a href="{{ route('pembeli.product', ['id' => $bestProduct->id_produk]) }}" class="btn btn-hero" style="color: #F05A25; border-color: #F05A25;">BUY NOW</a>
-                 </div>
-                 <div class="col-md-6">
-                     <img src="{{ asset('storage/' . $bestProduct->gambar_produk) }}" alt="Product Image" class="img-fluid"
- style="max-width: 250px;">
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
- @endif
+        <!-- Hero Section -->
+        <div class="container-fluid py-5 position-relative"
+            style="min-height: 80vh; background: url('{{ asset('static/images/background.svg') }}') no-repeat center bottom / cover;">
+            <div class="container py-4 position-relative">
+                <div class="row align-items-center justify-content-center text-center">
+                    <div class="col-md-6">
+                        <p class="text-primary fw-semibold small">THE BEST PLACE TO PLAY</p>
+                        <h1 class="fw-bold">Nama barang</h1>
+                        <p>Save up to 50%</p>
+                        <a href="#" class="btn btn-hero" style="color: #F05A25; border-color: #F05A25;">BUY NOW</a>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="{{ asset('static/images/hero.png') }}" alt="Product Image" class="img-fluid"
+                            style="max-width: 250px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Categories Section -->
     <div id="categories" class="container text-center" data-aos="fade-up">
@@ -52,17 +50,14 @@
             @endphp
 
             @foreach ($categories as $category)
-            <div class="col d-flex justify-content-center">
-                <a href="{{ route('pembeli.products', ['kategori_produk' => $category['name']]) }}"
-                    class="text-decoration-none text-dark">
+                <div class="col d-flex justify-content-center">
                     <div class="category-item p-3 mt-5 rounded shadow-sm text-center d-flex flex-column align-items-center justify-content-center"
                         style="background-color: {{ $category['bg'] }}; width: 148px; height: 148px;">
                         <img src="{{ asset('static/images/' . $category['image']) }}" alt="{{ $category['name'] }}"
                             class="img-fluid pt-3" style="max-width: 70px; max-height: 70px;">
                         <p class="mt-2 fw-bold" style="font-size: 12px;">{{ $category['name'] }}</p>
                     </div>
-                </a>
-            </div>
+                </div>
             @endforeach
         </div>
     </div>
@@ -76,19 +71,18 @@
 
             <div class="row mt-4 justify-content-center text-center">
                 <!-- Left Side: Product Highlight -->
-                @if($bestProduct != null)
                 <div class="col-md-4">
                     <div class="p-3 bg-white rounded shadow-sm" style="position: relative;">
-                        {{-- <span class="badge bg-primary text-white" style="position: absolute; top: 10px; left: 10px;">
-                            10% OFF
-                        </span> --}}
-                        <img src="{{ asset('storage/' . $bestProduct->gambar_produk) }}" alt="{{ $bestProduct->nama_produk }}"
+                        <!-- Discount Tag -->
+                        <span class="badge bg-primary text-white" style="position: absolute; top: 10px; left: 10px;">10%
+                            OFF</span>
+                        <img src="{{ asset('static/images/feature.png') }}" alt="PS5"
                             class="img-fluid d-block mx-auto">
-                        <p class="mt-2 mb-1 text-warning">★★★★★</p>
-                        <h5 class="fw-bold">{{ $bestProduct->nama_produk }}</h5>
-                        <p class="text-decoration-line-through text-muted mb-1">Rp {{ number_format($bestProduct->harga_produk*2) }}</p>
-                        <p class="text-danger fw-bold">Rp {{ number_format($bestProduct->harga_produk) }}</p>
-                
+                        <p class="mt-2 mb-1 text-warning">★★★★★ (1.800.000)</p>
+                        <h5 class="fw-bold">PS5 Pro 1TB</h5>
+                        <p class="text-decoration-line-through text-muted mb-1">Rp 10.000.000</p>
+                        <p class="text-danger fw-bold">Rp 9.000.000</p>
+
                         <div class="d-flex gap-2">
                             <a href="#" class="btn text-white w-100" style="background-color: #F05A25">BUY NOW</a>
                             <a href="#" class="btn btn-cart"
@@ -98,23 +92,59 @@
                         </div>
                     </div>
                 </div>
-                @endif
 
                 <!-- Right Side: Grid of Other Products -->
-@foreach ($otherProducts as $product)
-<div class="col-4 text-center">
-    <div class="bg-light rounded" style="width: 100px; height: 100px; margin: auto;">
-        <img src="{{ asset('storage/' . $product->gambar_produk) }}" alt="{{ $product->nama_produk }}"
-            style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;">
-    </div>
-    <p class="mt-2">{{ $product->nama_produk }}</p>
-</div>
-@endforeach
-
+                <div class="col-md-8">
+                    <div class="row g-3 pt-5 mt-5">
+                        <!-- Product Placeholder -->
+                        <div class="col-4 text-center">
+                            <div class="bg-light rounded" style="width: 100px; height: 100px; margin: auto;">
+                                <img src="{{ asset('static/images/feature.png') }}" alt="Computer"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;">
+                            </div>
+                            <p class="mt-2">Computer</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="bg-light rounded" style="width: 100px; height: 100px; margin: auto;">
+                                <img src="{{ asset('static/images/feature.png') }}" alt="Computer"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;">
+                            </div>
+                            <p class="mt-2">Computer</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="bg-light rounded" style="width: 100px; height: 100px; margin: auto;">
+                                <img src="{{ asset('static/images/feature.png') }}" alt="Computer"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;">
+                            </div>
+                            <p class="mt-2">Computer</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="bg-light rounded" style="width: 100px; height: 100px; margin: auto;">
+                                <img src="{{ asset('static/images/feature.png') }}" alt="Computer"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;">
+                            </div>
+                            <p class="mt-2">Computer</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="bg-light rounded" style="width: 100px; height: 100px; margin: auto;">
+                                <img src="{{ asset('static/images/feature.png') }}" alt="Computer"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;">
+                            </div>
+                            <p class="mt-2">Computer</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="bg-light rounded" style="width: 100px; height: 100px; margin: auto;">
+                                <img src="{{ asset('static/images/feature.png') }}" alt="Computer"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;">
+                            </div>
+                            <p class="mt-2">Computer</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- Show all products -->
             <div class="text-end mt-3">
-                <a href="/products" class="fw-bold" style="color: #F05A25">Show all product →</a>
+                <a href="#" class="fw-bold" style="color: #F05A25">Show all product →</a>
             </div>
         </div> <!-- End Container -->
     </div> <!-- End Container Fluid -->

@@ -27,17 +27,4 @@ class Produk extends Model
     {
         return $this->hasMany(DetailPesanan::class, 'id_produk');
     }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class, 'produk_id', 'id_produk');
-    }
-
-    public function latestReviews()
-    {
-        return $this->hasMany(Review::class, 'produk_id', 'id_produk')
-                    ->latest()
-                    ->take(10);
-    }
-
 }

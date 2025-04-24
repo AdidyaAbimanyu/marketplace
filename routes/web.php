@@ -2,14 +2,28 @@
 
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\PenjualController;
+use App\Http\Controllers\ProdukController;
 
-Route::view('/', 'home')->name('home');
+Route::get('/', [PembeliController::class, 'index'])->name('home');
 
 Route::get('/auth', [AuthController::class, 'auth'])->name('auth');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/search', [ProdukController::class, 'search'])->name('search');
+Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('detail');
+
+
+Route::middleware('auth')->group(function (){
+    Route::get('/cart', [ProdukController::class, 'index'])->name('cart.index');
+    Route::post('/checkout', [ProdukController::class, 'process'])->name('checkout.process');
+    Route::post('/cart/add', [ProdukController::class, 'add'])->name('cart.add');
+    Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');
+    Route::get('/cart/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
+});
 
 Route::middleware('role:penjual')->group(function () {
     Route::get('/penjual', [PenjualController::class, 'dashboard'])->name('penjual.dashboard');

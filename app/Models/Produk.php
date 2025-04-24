@@ -11,7 +11,7 @@ class Produk extends Model
 
     protected $table = 'produk';
     protected $primaryKey = 'id_produk';
-    protected $fillable = ['nama_produk', 'kategori_produk', 'deskripsi_produk',  'stok_produk', 'harga_produk', 'review_produk', 'rating_produk', 'id_pengguna', 'gambar_produk'];
+    protected $fillable = ['nama_produk', 'kategori_produk', 'deskripsi_produk', 'jumlah_review_produk', 'rating_produk', 'stok_produk', 'harga_produk', 'id_pengguna', 'gambar_produk'];
 
     public function pengguna()
     {
@@ -26,5 +26,10 @@ class Produk extends Model
     public function detailPesanan()
     {
         return $this->hasMany(DetailPesanan::class, 'id_produk');
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class, 'id_produk');
     }
 }

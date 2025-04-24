@@ -6,9 +6,9 @@
         </a>
 
         <!-- Search Bar -->
-        <form class="d-flex mx-auto" role="search" style="width: 50%;">
+        <form action="{{ route('search') }}" method="GET" class="d-flex mx-auto" role="search" style="width: 50%;">
             <input class="form-control me-2 border border-warning" type="search" placeholder="Search for anything..."
-                aria-label="Search">
+                aria-label="Search" name="search">
             <button class="btn text-white" type="submit"
                 style="background-color: #FF5722; border-radius: 5px;">Search</button>
         </form>
@@ -17,10 +17,11 @@
         <div class="d-flex align-items-center">
             @if (Auth::check())
                 <!-- Cart Icon -->
-                <a href="#" class="me-3 position-relative">
+                <a href="{{ route('cart.index') }}" class="me-3 position-relative">
                     <img src="{{ asset('static/images/cart.png') }}" alt="Cart" width="30">
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ $cartCount ?? 0 }}
+                    </span>
                 </a>
 
                 <!-- Profile Dropdown -->

@@ -12,7 +12,11 @@ class PenjualController extends Controller
     public function dashboard()
     {
         $produk = auth()->user()->produk;
-        return view('penjual.dashboard', compact('produk'));
+
+        $produkTerjualData = Produk::where('id_pengguna', auth()->id())
+            ->pluck('jumlah_produk_terjual', 'nama_produk');
+
+        return view('penjual.dashboard', compact('produk', 'produkTerjualData'));
     }
 
     public function add()

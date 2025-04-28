@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('cart.checkout') }}" class="text-decoration-none">
+            <a href="{{ route('cart.checkout') }}" class="text-decoration-none mt-5">
                 <button type="submit" id="signUpBtn" class="btn w-100" style="background-color: #FF5722; color: white;">CHECKOUT →</button>
             </a>
         </div>

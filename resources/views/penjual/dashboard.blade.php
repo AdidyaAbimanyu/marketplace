@@ -62,11 +62,46 @@
                 </a>
             </div>
         </div>
+
+        <!-- Grafik Batang -->
+        <div class="mb-4 text-center mt-5">
+            <div class="card p-3" style="border-radius: 10px;">
+                <h5 class="mb-3">Grafik Penjualan Bulan Ini</h5>
+                <canvas id="produkTerjualChart" height="200"></canvas>
+            </div>
+        </div>
     </main>
 @endsection
 
 @push('scripts')
     <script>
+        const ctxRole = document.getElementById('produkTerjualChart');
+        if (ctxRole) {
+            new Chart(ctxRole, {
+                type: 'bar',
+                data: {
+                    labels: {!! json_encode($produkTerjualData->keys()) !!},
+                    datasets: [{
+                        label: 'Jumlah Produk Terjual',
+                        data: {!! json_encode($produkTerjualData->values()) !!},
+                        backgroundColor: '#3FA9F5',
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Konfirmasi Hapus
             document.querySelectorAll('.form-delete').forEach(form => {

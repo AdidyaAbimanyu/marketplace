@@ -73,21 +73,10 @@
             </div>
         </div>
 
-        <div class="row py-5 mt-5" data-aos="fade-up">
-            <!-- Grafik Batang -->
-            <div class="col-md-6 mb-4 text-center">
-                <div class="card p-3" style="border-radius: 10px;">
-                    <h5 class="mb-3">Jumlah Pengguna per Role</h5>
-                    <canvas id="userRoleChart" height="200"></canvas>
-                </div>
-            </div>
-
-            <!-- Grafik Garis Dummy Penjualan -->
-            <div class="col-md-6 mb-4">
-                <div class="card p-3 text-center" style="border-radius: 10px;">
-                    <h5 class="mb-3">Grafik Penjualan (Dummy)</h5>
-                    <canvas id="salesChart" height="200"></canvas>
-                </div>
+        <div class="mb-4 text-center mt-5">
+            <div class="card p-3" style="border-radius: 10px;">
+                <h5 class="mb-3">Jumlah Pengguna per Role</h5>
+                <canvas id="userRoleChart" height="200"></canvas>
             </div>
         </div>
     </main>
@@ -169,33 +158,6 @@
                     }
                 });
             }
-
-            // Chart - Penjualan Dummy
-            const ctxSales = document.getElementById('salesChart');
-            if (ctxSales) {
-                new Chart(ctxSales, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Penjualan',
-                            data: [12, 19, 3, 5, 9, 14],
-                            fill: false,
-                            borderColor: '#FF5722',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-
         });
     </script>
 @endpush

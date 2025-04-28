@@ -19,7 +19,6 @@ Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('detail');
 
 Route::middleware('auth')->group(function (){
     Route::get('/cart', [ProdukController::class, 'index'])->name('cart.index');
-    Route::post('/checkout', [ProdukController::class, 'process'])->name('checkout.process');
     Route::post('/cart/add', [ProdukController::class, 'add'])->name('cart.add');
     Route::post('/buy-now-checkout', [ProdukController::class, 'buyNowCheckout'])->name('buyNowCheckout');
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');

@@ -99,68 +99,42 @@ class ProdukController extends Controller
 
     public function buyNowCheckout(Request $request)
     {
-        if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'Harap login terlebih dahulu');
+        $request->validate([
+            'produk_id' => 'required|exists:produk,id_produk',
+            'jumlah' => 'required|integer|min:1',
+        ]);
+
+        $produk = Produk::findOrFail($request->produk_id);
+
+        // Cek stok
+        if ($produk->stok_produk < $request->jumlah) {
+            return back()->with('error', 'Stok produk tidak mencukupi.');
         }
 
-        $produkId = $request->input('produk_id');
-        $jumlah = $request->input('jumlah');  // Mengambil jumlah dari form
-        $userId = auth()->user()->id_pengguna;  // Menggunakan ID pengguna yang sedang login
-
-        // Cari produk berdasarkan produk_id
-        $produk = Produk::find($produkId);
-
-        // Pastikan produk ditemukan
-        if (!$produk) {
-            return redirect()->route('cart.index')->with('error', 'Produk tidak ditemukan');
-        }
-
-        // Cari produk di keranjang yang sudah ada untuk pengguna ini
-        $keranjang = Keranjang::where('id_produk', $produkId)
-            ->where('id_pengguna', $userId)
+        // Cari apakah produk sudah ada di keranjang user
+        $keranjang = Keranjang::where('id_pengguna', auth()->id())
+            ->where('id_produk', $produk->id_produk)
             ->first();
 
         if ($keranjang) {
-            // Jika produk sudah ada di keranjang, update jumlahnya
-            $keranjang->jumlah_produk += $jumlah;
-            $keranjang->total_harga = $keranjang->jumlah_produk * $produk->harga_produk;  // Update total harga
+            // Jika sudah ada, update jumlah & total harga
+            $keranjang->jumlah_produk += $request->jumlah;
+            $keranjang->total_harga = $keranjang->jumlah_produk * $keranjang->harga_produk;
             $keranjang->save();
         } else {
-            // Jika produk belum ada di keranjang, buat entri baru
+            // Jika belum ada, buat baru
             Keranjang::create([
-                'id_produk' => $produkId,
-                'id_pengguna' => $userId,
                 'nama_produk' => $produk->nama_produk,
+                'jumlah_produk' => $request->jumlah,
                 'harga_produk' => $produk->harga_produk,
-                'jumlah_produk' => $jumlah,
-                'total_harga' => $jumlah * $produk->harga_produk,
+                'total_harga' => $produk->harga_produk * $request->jumlah,
+                'id_pengguna' => auth()->id(),
+                'id_produk' => $produk->id_produk,
             ]);
         }
 
-        $cartItems = Keranjang::with('produk')
-            ->where('id_pengguna', auth()->id())
-            ->get();
-
-        $subtotal = Keranjang::where('id_pengguna', auth()->id())
-            ->sum('total_harga');
-
-        $shippingCost = 0;
-
-        $discount = 0;
-
-        $tax = 0;
-
-        $totalPrice = $subtotal + $shippingCost - $discount + $tax;
-
-        $data = [
-            'subtotal' => $subtotal,
-            'shipping_cost' => $shippingCost,
-            'discount' => $discount,
-            'tax' => $tax,
-            'total_price' => $totalPrice,
-        ];
-
-        return view('checkout', compact('cartItems', 'data'));
+        // Redirect langsung ke checkout
+        return redirect()->route('cart.checkout')->with('success', 'Produk berhasil ditambahkan, silakan checkout.');
     }
 
     public function checkout()
@@ -169,15 +143,11 @@ class ProdukController extends Controller
             ->where('id_pengguna', auth()->id())
             ->get();
 
-        $subtotal = Keranjang::where('id_pengguna', auth()->id())
-            ->sum('total_harga');
+        $subtotal = $cartItems->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
 
         $shippingCost = 0;
-
         $discount = 0;
-
         $tax = 0;
-
         $totalPrice = $subtotal + $shippingCost - $discount + $tax;
 
         $data = [
@@ -186,6 +156,7 @@ class ProdukController extends Controller
             'discount' => $discount,
             'tax' => $tax,
             'total_price' => $totalPrice,
+            'is_buy_now' => false, // checkout biasa
         ];
 
         return view('checkout', compact('cartItems', 'data'));

@@ -11,7 +11,7 @@ class Review extends Model
 
     protected $table = 'review';
     protected $primaryKey = 'id_review';
-    protected $fillable = ['isi_review', 'rating_review', 'id_produk', 'id_pengguna'];
+    protected $fillable = ['isi_review', 'rating_review', 'gambar_review', 'id_produk', 'id_pengguna'];
     public function produk()
     {
         return $this->belongsTo(Produk::class, 'id_produk');

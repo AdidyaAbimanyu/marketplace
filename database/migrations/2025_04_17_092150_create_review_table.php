@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_review');
             $table->string('isi_review');
             $table->decimal('rating_review', 2, 1)->default(5.0); // Rating antara 1.0 hingga 5.0
+            $table->string('gambar_review')->nullable(); // URL gambar review
             $table->unsignedBigInteger('id_produk'); // Relasi ke produk
             $table->unsignedBigInteger('id_pengguna'); // Relasi ke pengguna
             $table->timestamps();

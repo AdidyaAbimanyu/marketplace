@@ -25,6 +25,7 @@ class ReviewSeeder extends Seeder
                     'isi_review' => "Review ke-" . ($i + 1) . " untuk produk " . $produk->nama_produk,
                     'rating_review' => $rating,
                     'id_produk' => $produk->id_produk,
+                    'gambar_review' => 'review/default.png',
                     'id_pengguna' => $pembelis[array_rand($pembelis)],
                 ]);
             }

@@ -111,32 +111,6 @@ class ProdukController extends Controller
             return back()->with('error', 'Stok produk tidak mencukupi.');
         }
 
-<<<<<<< Updated upstream
-        // Cari apakah produk sudah ada di keranjang user
-        $keranjang = Keranjang::where('id_pengguna', auth()->id())
-            ->where('id_produk', $produk->id_produk)
-            ->first();
-
-        if ($keranjang) {
-            // Jika sudah ada, update jumlah & total harga
-            $keranjang->jumlah_produk += $request->jumlah;
-            $keranjang->total_harga = $keranjang->jumlah_produk * $keranjang->harga_produk;
-            $keranjang->save();
-        } else {
-            // Jika belum ada, buat baru
-            Keranjang::create([
-                'nama_produk' => $produk->nama_produk,
-                'jumlah_produk' => $request->jumlah,
-                'harga_produk' => $produk->harga_produk,
-                'total_harga' => $produk->harga_produk * $request->jumlah,
-                'id_pengguna' => auth()->id(),
-                'id_produk' => $produk->id_produk,
-            ]);
-        }
-
-        // Redirect langsung ke checkout
-        return redirect()->route('cart.checkout')->with('success', 'Produk berhasil ditambahkan, silakan checkout.');
-=======
         $produkId = $request->input('produk_id');
         $jumlah = $request->input('jumlah');
 
@@ -170,7 +144,6 @@ class ProdukController extends Controller
         ];
 
         return view('checkout', compact('cartItems', 'data'));
->>>>>>> Stashed changes
     }
 
 
@@ -308,12 +281,9 @@ class ProdukController extends Controller
             'gambar_review' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $fotoPath = null;
         if ($request->hasFile('gambar_review')) {
             $fotoPath = $request->file('gambar_review')->store('review', 'public');
         }
-
-
 
         Review::create([
             'id_produk' => $request->product_id,

@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function (){
     Route::post('/orders/confirm/{id}', [ProdukController::class, 'confirm'])->name('orders.confirm');
     Route::get('/review/{id}', [ProdukController::class, 'formReview'])->name('review');
     Route::post('/submit-review', [ProdukController::class, 'submitReview'])->name('submit.review');
+    Route::get('/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
+
 });
 
 Route::middleware('role:penjual')->group(function () {

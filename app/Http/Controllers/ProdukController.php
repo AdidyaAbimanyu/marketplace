@@ -111,6 +111,7 @@ class ProdukController extends Controller
             return back()->with('error', 'Stok produk tidak mencukupi.');
         }
 
+<<<<<<< Updated upstream
         // Cari apakah produk sudah ada di keranjang user
         $keranjang = Keranjang::where('id_pengguna', auth()->id())
             ->where('id_produk', $produk->id_produk)
@@ -135,7 +136,43 @@ class ProdukController extends Controller
 
         // Redirect langsung ke checkout
         return redirect()->route('cart.checkout')->with('success', 'Produk berhasil ditambahkan, silakan checkout.');
+=======
+        $produkId = $request->input('produk_id');
+        $jumlah = $request->input('jumlah');
+
+        $produk = Produk::findOrFail($produkId);
+
+        if ($produk->stok_produk < $jumlah) {
+            return redirect()->back()->with('error', 'Stok produk tidak cukup.');
+        }
+
+        $subtotal = $produk->harga_produk * $jumlah;
+        $shippingCost = 0;
+        $discount = 0;
+        $tax = 0;
+        $totalPrice = $subtotal + $shippingCost - $discount + $tax;
+
+        $cartItems = [
+            [
+                'produk' => $produk,
+                'jumlah' => $jumlah,
+                'subtotal' => $subtotal,
+            ]
+        ];
+
+        $data = [
+            'subtotal' => $subtotal,
+            'shipping_cost' => $shippingCost,
+            'discount' => $discount,
+            'tax' => $tax,
+            'total_price' => $totalPrice,
+            'is_buy_now' => true, // tambahan flag
+        ];
+
+        return view('checkout', compact('cartItems', 'data'));
+>>>>>>> Stashed changes
     }
+
 
     public function checkout()
     {
@@ -161,6 +198,8 @@ class ProdukController extends Controller
 
         return view('checkout', compact('cartItems', 'data'));
     }
+
+
 
     public function paymentProcess(Request $request)
     {

@@ -46,6 +46,7 @@
                         <p><strong>{{ $produk->brand ?? $produk->pengguna->nama_pengguna }}</strong></p>
 
                         {{-- Tombol Aksi --}}
+<<<<<<< Updated upstream
                         <div class="d-flex">
                             <form action="{{ route('buyNowCheckout') }}" method="POST" class="d-flex align-items-center">
                                 @csrf
@@ -55,6 +56,10 @@
                                     BUY NOW
                                 </button>
                             </form>
+=======
+                        <div class="d-flex flex-column gap-3">
+                            {{-- ADD TO CART --}}
+>>>>>>> Stashed changes
                             <form action="{{ route('cart.add') }}" method="POST" class="d-flex align-items-center gap-3">
                                 @csrf
                                 <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
@@ -69,12 +74,28 @@
                                     <button type="button" class="btn btn-sm border-0 shadow-none px-2"
                                         onclick="ubahJumlah(1)">＋</button>
                                 </div>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                                 <button type="submit" class="btn px-4 py-2"
                                     style="color: #F05A25; border: 1px solid #F05A25;">
                                     ADD TO CART
                                 </button>
                             </form>
+
+                            {{-- BUY NOW --}}
+                            <form id="buyNowForm" action="{{ route('buyNowCheckout') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
+                                <input type="hidden" name="jumlah" value="1"> {{-- Default 1 --}}
+                                <button type="submit" class="btn text-white px-4 py-2"
+                                    style="background-color: #F05A25;">
+                                    BUY NOW
+                                </button>
+                            </form>
                         </div>
+
                     </div>
 
                 </div>

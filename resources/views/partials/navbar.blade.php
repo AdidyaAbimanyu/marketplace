@@ -49,7 +49,6 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            \
                         @endif
                         <li>
                             <form action="{{ route('logout') }}" method="POST">

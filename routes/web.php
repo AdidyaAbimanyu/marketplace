@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function (){
     Route::get('/cart', [ProdukController::class, 'index'])->name('cart.index');
     Route::post('/checkout', [ProdukController::class, 'process'])->name('checkout.process');
     Route::post('/cart/add', [ProdukController::class, 'add'])->name('cart.add');
+    Route::post('/buy-now-checkout', [ProdukController::class, 'buyNowCheckout'])->name('buyNowCheckout');
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');
     Route::get('/cart/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
     Route::post('/payment-process', [ProdukController::class, 'paymentProcess'])->name('pembeli.payment-process');
@@ -29,7 +30,6 @@ Route::middleware('auth')->group(function (){
     Route::post('/orders/confirm/{id}', [ProdukController::class, 'confirm'])->name('orders.confirm');
     Route::get('/review/{id}', [ProdukController::class, 'formReview'])->name('review');
     Route::post('/submit-review', [ProdukController::class, 'submitReview'])->name('submit.review');
-
 });
 
 Route::middleware('role:penjual')->group(function () {

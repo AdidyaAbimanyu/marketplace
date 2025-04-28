@@ -52,8 +52,7 @@
                                 <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
 
                                 {{-- Kontrol jumlah --}}
-                                <div class="d-flex align-items-center border px-2 py-1"
-                                    style="width: 130px; height: 40px;">
+                                <div class="d-flex align-items-center border px-2 py-1" style="width: 130px; height: 40px;">
                                     <button type="button" class="btn btn-sm border-0 shadow-none px-2"
                                         onclick="ubahJumlah(-1)">−</button>
                                     <input type="number" name="jumlah" id="jumlahInput"
@@ -65,9 +64,15 @@
                                 </div>
 
                                 {{-- BUY NOW --}}
-                                <button type="button" class="btn text-white px-4 py-2" style="background-color: #F05A25;">
-                                    BUY NOW
-                                </button>
+                                <form id="buyNowForm" action="{{ route('buyNowCheckout') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
+                                    <input type="hidden" name="jumlah" id="buyNowJumlah" value="1">
+                                    <button type="button" onclick="submitBuyNow()" class="btn text-white px-4 py-2"
+                                        style="background-color: #F05A25;">
+                                        BUY NOW
+                                    </button>
+                                </form>
 
                                 {{-- ADD TO CART --}}
                                 <button type="submit" class="btn px-4 py-2"
@@ -146,6 +151,12 @@
             if (current > max) current = max;
 
             input.value = current;
+        }
+
+        function submitBuyNow() {
+            const jumlah = document.getElementById('jumlahInput').value;
+            document.getElementById('buyNowJumlah').value = jumlah;
+            document.getElementById('buyNowForm').submit();
         }
     </script>
 @endpush

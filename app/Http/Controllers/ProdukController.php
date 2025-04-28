@@ -97,22 +97,71 @@ class ProdukController extends Controller
         return redirect()->route('cart.index')->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
 
-    // public function buyNowCheckout(Request $request)
-    // {
-    //     // 1) Validate incoming data
-    //     $request->validate([
-    //         'product_id' => 'required|exists:produk,id_produk',
-    //         'quantity' => 'required|integer|min:1',
-    //     ]);
+    public function buyNowCheckout(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Harap login terlebih dahulu');
+        }
 
-    //     // 2) Fetch product
-    //     $product = Produk::findOrFail($request->product_id);
+        $produkId = $request->input('produk_id');
+        $jumlah = $request->input('jumlah');  // Mengambil jumlah dari form
+        $userId = auth()->user()->id_pengguna;  // Menggunakan ID pengguna yang sedang login
 
-    //     // 3) Calculate total price
-    //     $totalPrice = $product->harga_produk * $request->quantity;
+        // Cari produk berdasarkan produk_id
+        $produk = Produk::find($produkId);
 
-    //     return view('checkout', compact('product', 'totalPrice'));
-    // }
+        // Pastikan produk ditemukan
+        if (!$produk) {
+            return redirect()->route('cart.index')->with('error', 'Produk tidak ditemukan');
+        }
+
+        // Cari produk di keranjang yang sudah ada untuk pengguna ini
+        $keranjang = Keranjang::where('id_produk', $produkId)
+            ->where('id_pengguna', $userId)
+            ->first();
+
+        if ($keranjang) {
+            // Jika produk sudah ada di keranjang, update jumlahnya
+            $keranjang->jumlah_produk += $jumlah;
+            $keranjang->total_harga = $keranjang->jumlah_produk * $produk->harga_produk;  // Update total harga
+            $keranjang->save();
+        } else {
+            // Jika produk belum ada di keranjang, buat entri baru
+            Keranjang::create([
+                'id_produk' => $produkId,
+                'id_pengguna' => $userId,
+                'nama_produk' => $produk->nama_produk,
+                'harga_produk' => $produk->harga_produk,
+                'jumlah_produk' => $jumlah,
+                'total_harga' => $jumlah * $produk->harga_produk,
+            ]);
+        }
+
+        $cartItems = Keranjang::with('produk')
+            ->where('id_pengguna', auth()->id())
+            ->get();
+
+        $subtotal = Keranjang::where('id_pengguna', auth()->id())
+            ->sum('total_harga');
+
+        $shippingCost = 0;
+
+        $discount = 0;
+
+        $tax = 0;
+
+        $totalPrice = $subtotal + $shippingCost - $discount + $tax;
+
+        $data = [
+            'subtotal' => $subtotal,
+            'shipping_cost' => $shippingCost,
+            'discount' => $discount,
+            'tax' => $tax,
+            'total_price' => $totalPrice,
+        ];
+
+        return view('checkout', compact('cartItems', 'data'));
+    }
 
     public function checkout()
     {
@@ -256,14 +305,14 @@ class ProdukController extends Controller
         }
 
         Review::create([
-            'produk_id' => $request->product_id,
-            'pengguna_id' => auth()->id(),
-            'rating' => $request->rating,
-            'komentar' => $request->review,
-            'foto' => $fotoPath,
+            'id_produk' => $request->product_id,
+            'id_pengguna' => auth()->id(),
+            'rating_review' => $request->rating,
+            'isi_review' => $request->review,
+            'gambar_review' => $fotoPath,
         ]);
 
-        return redirect()->route('history-order')->with('success', 'Review berhasil dikirim!');
+        return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
 
         if ($alreadyReviewed) {
             return redirect()->back()->withErrors(['review' => 'Kamu sudah memberikan ulasan untuk produk ini.']);
@@ -311,6 +360,9 @@ class ProdukController extends Controller
             $order->status_detail_pesanan = 'delivered';
             $order->save();
         }
+
+        Produk::where('id_produk', $order->id_produk)
+            ->increment('jumlah_produk_terjual', $order->jumlah_produk);
 
         return redirect()->back()->with('success', 'Pesanan telah diterima.');
     }

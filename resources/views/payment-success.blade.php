@@ -44,8 +44,8 @@
         </table>
     </div>
 
-    <a href="{{ route('home') }}" class="btn btn-outline-warning mt-4 px-4 py-2 fw-bold">
-        BACK TO HOME
+    <a href="{{ route('pembeli.history-order') }}" class="btn btn-outline-warning mt-4 px-4 py-2 fw-bold">
+        Lihat History Order
     </a>
 </div>
 @endsection

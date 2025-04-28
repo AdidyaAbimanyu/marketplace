@@ -237,7 +237,7 @@ class ProdukController extends Controller
     {
         $product = Produk::findOrFail($id);
 
-        return view('pembeli.review', compact('product'));
+        return view('review', compact('product'));
     }
 
     public function submitReview(Request $request)
@@ -263,7 +263,7 @@ class ProdukController extends Controller
             'foto' => $fotoPath,
         ]);
 
-        return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
+        return redirect()->route('history-order')->with('success', 'Review berhasil dikirim!');
 
         if ($alreadyReviewed) {
             return redirect()->back()->withErrors(['review' => 'Kamu sudah memberikan ulasan untuk produk ini.']);
@@ -291,7 +291,7 @@ class ProdukController extends Controller
 
         $review->save();
 
-        return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
+        return redirect()->route('history-order')->with('success', 'Review berhasil dikirim!');
     }
 
     public function orderTracking($id)
@@ -301,6 +301,18 @@ class ProdukController extends Controller
             ->firstOrFail();
 
         return view('order-tracking', compact('order'));
+    }
+
+    public function confirm($id)
+    {
+        $order = DetailPesanan::findOrFail($id);
+
+        if ($order->status_detail_pesanan == 'on_delivery') {
+            $order->status_detail_pesanan = 'delivered';
+            $order->save();
+        }
+
+        return redirect()->back()->with('success', 'Pesanan telah diterima.');
     }
 
     public function destroy($cartId)

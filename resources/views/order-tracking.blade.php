@@ -72,12 +72,30 @@
             </table>
         </div>
 
+        <!-- Shipping Address -->
         <h6 class="mt-4">Alamat Pengiriman:</h6>
         <p class="text-muted">{{ $order->alamat }}</p>
+
+        <!-- Button Area -->
+        <div class="d-flex justify-content-end mt-4">
+            @if ($order->status_detail_pesanan == 'on_delivery')
+                <form action="{{ route('orders.confirm', $order->id_detail_pesanan) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success">
+                        Pesanan Diterima
+                    </button>
+                </form>
+            @elseif ($order->status_detail_pesanan == 'delivered')
+                <a href="{{ route('review', $order->id_produk) }}" class="btn btn-primary">
+                    Berikan Ulasan
+                </a>
+            @endif
+        </div>
 
     </div>
 </div>
 
+<!-- Styles -->
 <style>
     .progress-track {
         position: absolute;
@@ -123,3 +141,5 @@
         vertical-align: middle;
     }
 </style>
+
+@endsection

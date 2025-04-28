@@ -26,6 +26,10 @@ Route::middleware('auth')->group(function (){
     Route::post('/payment-process', [ProdukController::class, 'paymentProcess'])->name('pembeli.payment-process');
     Route::get('/history-order', [ProdukController::class, 'historyOrder'])->name('pembeli.history-order');
     Route::get('/order-tracking/{id}', [ProdukController::class, 'orderTracking'])->name('pembeli.order-tracking');
+    Route::post('/orders/confirm/{id}', [ProdukController::class, 'confirm'])->name('orders.confirm');
+    Route::get('/review/{id}', [ProdukController::class, 'formReview'])->name('review');
+    Route::post('/submit-review', [ProdukController::class, 'submitReview'])->name('submit.review');
+
 });
 
 Route::middleware('role:penjual')->group(function () {

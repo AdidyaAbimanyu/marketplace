@@ -266,14 +266,15 @@ class ProdukController extends Controller
             'product_id' => 'required|exists:produk,id_produk',
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar_review' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $fotoPath = null;
-
-        if ($request->hasFile('photo')) {
-            $fotoPath = $request->file('photo')->store('reviews', 'public');
+        if ($request->hasFile('gambar_review')) {
+            $fotoPath = $request->file('gambar_review')->store('review', 'public');
         }
+
+
 
         Review::create([
             'id_produk' => $request->product_id,

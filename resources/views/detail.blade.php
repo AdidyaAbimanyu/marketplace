@@ -120,6 +120,8 @@
                                     </div>
                                     <strong>{{ Str::limit($review->pengguna->nama_pengguna, 5, '**') }}</strong>
                                     <p class="mb-0">{{ $review->isi_review }}</p>
+                                    <img src="{{ asset('storage/' . $review->gambar_review) }}" alt="Review Image"
+                                        width="50" height="50" class="rounded shadow-sm" style="object-fit: cover;">
                                 </div>
                             @empty
                                 <p>Belum ada review.</p>

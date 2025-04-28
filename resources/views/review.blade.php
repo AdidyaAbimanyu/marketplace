@@ -39,14 +39,24 @@
                     <textarea class="form-control" id="review" name="review" rows="4" required></textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Photos</label>
-                    <div class="border rounded p-4 text-center" style="cursor: pointer;"
-                        onclick="document.getElementById('photo').click()">
-                        <i class="fas fa-camera fa-2x text-muted"></i>
-                        <p class="text-muted">Upload Photos</p>
+                <!-- Upload Gambar -->
+                <div class="mb-4">
+                    <label for="gambar_produk" class="form-label d-block">Foto Produk</label>
+                    <div class="border p-4 text-center" style="border-radius: 8px;">
+                        <label for="gambar_produk" style="cursor: pointer;">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1829/1829135.png" alt="Upload"
+                                style="width: 40px;">
+                            <p class="mt-2 text-muted">Upload Foto</p>
+                        </label>
+                        <input type="file" name="gambar_produk" id="gambar_produk" class="d-none" accept="image/*"
+                            required>
+
+                        <!-- PREVIEW -->
+                        <div class="mt-3">
+                            <img id="preview-image" src="#" alt="Preview Gambar" class="img-fluid d-none"
+                                style="max-height: 200px; border-radius: 8px;">
+                        </div>
                     </div>
-                    <input type="file" id="photo" name="photo" class="d-none" accept="image/*">
                 </div>
 
                 <button type="submit" class="btn btn-warning text-white px-4 py-2 fw-bold">
@@ -107,6 +117,24 @@
             star.addEventListener('mouseout', function() {
                 highlightStars(selectedRating);
             });
+        });
+
+        const fileInput = document.getElementById('gambar_produk');
+        const previewImg = document.getElementById('preview-image');
+
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.src = '#';
+                previewImg.classList.add('d-none');
+            }
         });
     </script>
 @endpush

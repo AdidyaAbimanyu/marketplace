@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->bigInteger('harga_produk');
             $table->string('kategori_produk');
             $table->string('deskripsi_produk')->nullable();
+            $table->bigInteger('jumlah_produk_terjual')->nullable();
             $table->bigInteger('jumlah_review_produk')->nullable();
             $table->decimal('rating_produk', 2, 1)->default(0.0)->nullable();
             $table->unsignedBigInteger('id_pengguna');

@@ -38,6 +38,7 @@ class ProdukSeeder extends Seeder
                         'nama_produk' => "Produk $i dari $brand",
                         'kategori_produk' => $kategori,
                         'deskripsi_produk' => "Deskripsi produk $i kategori $kategori",
+                        'jumlah_produk_terjual' => 0,
                         'jumlah_review_produk' => 0,
                         'rating_produk' => 0.0,
                         'stok_produk' => rand(10, 100),

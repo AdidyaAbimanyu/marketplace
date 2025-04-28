@@ -31,6 +31,7 @@ class ReviewSeeder extends Seeder
             }
 
             $produk->update([
+                'jumlah_produk_terjual' => 5,
                 'jumlah_review_produk' => 5,
                 'rating_produk' => round($totalRating / 5, 1)
             ]);

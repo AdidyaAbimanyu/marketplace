@@ -5,21 +5,20 @@
 @section('content')
     <div class="py-5">
         <!-- Hero Section -->
-        <div class="container-fluid py-5 position-relative"
-            style="min-height: 80vh; background: url('{{ asset('static/images/background.svg') }}') no-repeat center bottom / cover;">
-            <div class="container py-4 position-relative">
-                <div class="row align-items-center justify-content-center text-center">
-                    <div class="col-md-6">
-                        <p class="text-primary fw-semibold small">THE BEST PLACE TO PLAY</p>
-                        <h1 class="fw-bold">Nama barang</h1>
-                        <p>Save up to 50%</p>
-                        <a href="#" class="btn btn-hero" style="color: #F05A25; border-color: #F05A25;">BUY NOW</a>
-                    </div>
-                    <div class="col-md-6">
-                        <img src="{{ asset('static/images/hero.png') }}" alt="Product Image" class="img-fluid"
-                            style="max-width: 250px;">
-                    </div>
-                </div>
+        <div class="position-relative"
+            style="min-height: 90vh; background: url('{{ asset('static/images/hero.svg') }}') center center / cover no-repeat;">
+            <!-- Logo di tengah -->
+            <div class="position-absolute top-50 start-50 translate-middle text-center">
+                <img src="{{ asset('static/images/icon.png') }}" alt="Logo" style="width: 352px;">
+            </div>
+
+            <!-- Wave di bawah -->
+            <div style="position: absolute; bottom: 0; width: 100%; line-height: 0;">
+                <svg viewBox="0 0 1440 320" style="display: block; width: 100%; height: auto;">
+                    <path fill="#ffffff" fill-opacity="1"
+                        d="M0,224L60,202.7C120,181,240,139,360,144C480,149,600,203,720,202.7C840,203,960,149,1080,144C1200,139,1320,181,1380,202.7L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+                    </path>
+                </svg>
             </div>
         </div>
     </div>

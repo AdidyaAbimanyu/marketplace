@@ -38,7 +38,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <form action="{{ route('cart.destroy', $cart->id_keranjang) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('cart.destroy', $cart->id_keranjang) }}" method="POST"
+                                            style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -65,9 +66,16 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('cart.checkout') }}" class="text-decoration-none mt-5">
-                <button type="submit" id="signUpBtn" class="btn w-100" style="background-color: #FF5722; color: white;">CHECKOUT →</button>
-            </a>
+            @if ($carts->isNotEmpty())
+                <a href="{{ route('cart.checkout') }}" class="text-decoration-none mt-5">
+                    <button type="submit" id="signUpBtn" class="btn w-100"
+                        style="background-color: #FF5722; color: white;">
+                        CHECKOUT →
+                    </button>
+                </a>
+            @else
+                <div class="alert alert-info text-center mt-5">You have no products yet.</div>
+            @endif
         </div>
     </div>
 @endsection

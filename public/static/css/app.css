@@ -39,7 +39,7 @@ body {
     transform: scale(1.05); /* Bisa 1.1 atau 1.2 sesuai selera */
 }
 
-.btn-cart:hover, .btn-hero:hover {
+.btn-cart:hover, .btn-history:hover {
     background-color: #F05A25 !important;
     color: #ffffff !important;
 }
@@ -66,4 +66,63 @@ body {
     font-weight: 600;
     border-bottom: 2px solid #e47911;
     background-color: transparent;
+}
+
+/* Order-tracking */
+.progress-track {
+    height: 4px;
+    background-color: #ffe0cc;
+    position: absolute;
+    top: 16px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.progress-fill {
+    height: 4px;
+    background-color: #ff7a00;
+    position: absolute;
+    top: 16px;
+    left: 0;
+    z-index: 2;
+    transition: width 0.4s ease;
+}
+
+.step-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #ff7a00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+    color: #ff7a00;
+}
+
+.step-icon.completed {
+    background-color: #ff7a00;
+    color: white;
+}
+
+.step-icon i {
+    font-size: 16px;
+}
+
+.step-label {
+    margin-top: 8px;
+    font-size: 0.9rem;
+}
+
+.step-label.completed {
+    font-weight: 600;
+    color: black;
+}
+
+.step-label.pending {
+    color: #999;
 }

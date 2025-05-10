@@ -5,7 +5,6 @@
 @section('content')
     <div class="container py-5">
         <h5 class="fw-bold mb-4">{{ $title }}</h5>
-
         @if ($produk->count())
             <div class="row g-4">
                 @foreach ($produk as $item)

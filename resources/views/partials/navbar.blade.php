@@ -7,10 +7,10 @@
 
         <!-- Search Bar -->
         <form action="{{ route('search') }}" method="GET" class="d-flex mx-auto" role="search" style="width: 50%;">
-            <input class="form-control me-2 border border-warning" type="search" placeholder="Search for anything..."
+            <input class="form-control me-2 border border-warning" type="search" placeholder="Cari apapun..."
                 aria-label="Search" name="search">
             <button class="btn text-white" type="submit"
-                style="background-color: #FF5722; border-radius: 5px;">Search</button>
+                style="background-color: #FF5722; border-radius: 5px;">Cari</button>
         </form>
 
         <!-- Right Section (Cart & User) -->
@@ -44,7 +44,7 @@
                                 <hr class="dropdown-divider">
                             </li>
                         @elseif(Auth::user()->role == 'pembeli')
-                            <li><a class="dropdown-item" href="{{ route('pembeli.history-order') }}">Riwayat Order</a>
+                            <li><a class="dropdown-item" href="{{ route('pembeli.history-order') }}">Riwayat Pembelian</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">

@@ -16,9 +16,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/search', [ProdukController::class, 'search'])->name('search');
 Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('detail');
 
-
-Route::middleware('auth')->group(function (){
-    Route::get('/cart', [ProdukController::class, 'index'])->name('cart.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/cart', [ProdukController::class, 'cart'])->name('cart.index');
     Route::post('/cart/add', [ProdukController::class, 'add'])->name('cart.add');
     Route::post('/buy-now-checkout', [ProdukController::class, 'buyNowCheckout'])->name('buyNowCheckout');
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');
@@ -30,7 +29,6 @@ Route::middleware('auth')->group(function (){
     Route::get('/review/{id}', [ProdukController::class, 'formReview'])->name('review');
     Route::post('/submit-review', [ProdukController::class, 'submitReview'])->name('submit.review');
     Route::get('/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
-
 });
 
 Route::middleware('role:penjual')->group(function () {

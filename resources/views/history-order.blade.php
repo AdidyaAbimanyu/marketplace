@@ -11,24 +11,31 @@
                 <div class="card-body">
                     <h5 class="card-title">Order #{{ $order->id_detail_pesanan }}</h5>
                     <p class="card-text mb-2">
-                        <strong>Status:</strong> {{ ucfirst($order->status_detail_pesanan) }} <br>
-                        <strong>Address:</strong> {{ $order->alamat }} <br>
-                        <strong>Total:</strong> Rp{{ number_format($order->total_harga, 0, ',', '.') }} <br>
-                        <strong>Items:</strong> {{ $order->jumlah_produk }} produk<br>
-                        <strong>Order Date:</strong> {{ $order->created_at->format('d M Y H:i') }}
+                        @if ($order->status_detail_pesanan == 'placed')
+                            <strong>Status:</strong> Diterima <br>
+                        @elseif ($order->status_detail_pesanan == 'packed')
+                            <strong>Status:</strong> Dikemas <br>
+                        @elseif ($order->status_detail_pesanan == 'shipping')
+                            <strong>Status:</strong> Sedang Dikirim <br>
+                        @elseif ($order->status_detail_pesanan == 'delivered')
+                            <strong>Status:</strong> Terkirim <br>
+                        @endif
+                        <strong>Alamat:</strong> {{ $order->alamat }} <br>
+                        <strong>Total:</strong> Rp {{ number_format($order->total_harga, 0, ',', '.') }} <br>
+                        <strong>Jumlah:</strong> {{ $order->jumlah_produk }} produk<br>
+                        <strong>Tanggal Pembelian:</strong> {{ $order->created_at->format('d M Y H:i') }}
                     </p>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        {{-- Ganti dengan rute yang sesuai jika kamu membuat halaman detail tracking --}}
                         <a href="{{ route('pembeli.order-tracking', ['id' => $order->id_detail_pesanan]) }}"
                             class="btn btn-sm btn-outline-primary">
-                            Detail
+                            Detil
                         </a>
                     </div>
                 </div>
             </div>
         @empty
-            <div class="alert alert-info text-center">You have no orders yet.</div>
+            <div class="alert alert-info text-center">Kamu belum order.</div>
         @endforelse
     </div>
 @endsection

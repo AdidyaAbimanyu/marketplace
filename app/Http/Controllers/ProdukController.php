@@ -26,6 +26,9 @@ class ProdukController extends Controller
             });
         }
 
+        $produk->orderByDesc('rating_produk')
+            ->orderByDesc('jumlah_produk_terjual');
+
         $produk = $produk->get();
 
         return view('show', [
@@ -43,15 +46,28 @@ class ProdukController extends Controller
         ]);
     }
 
-    public function index()
+    public function cart()
     {
         $carts = auth()->user()->keranjang()->with('produk')->get();
 
-        // Gunakan jumlah_produk, bukan jumlah
-        $total = $carts->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
+        $subtotal = $carts->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
         $cartCount = $carts->count();
 
-        return view('cart', compact('carts', 'total', 'cartCount'));
+        $shippingCost = 10000;
+        $discount = 0;
+        $taxRate = 0.1;
+        $tax = $subtotal * $taxRate;
+        $totalPrice = $subtotal + $shippingCost - $discount + $tax;
+
+        $data = [
+            'subtotal' => $subtotal,
+            'shipping_cost' => $shippingCost,
+            'discount' => $discount,
+            'tax' => $tax,
+            'total_price' => $totalPrice,
+        ];
+
+        return view('cart', compact('carts', 'data', 'cartCount'));
     }
 
     public function add(Request $request)
@@ -61,29 +77,24 @@ class ProdukController extends Controller
         }
 
         $produkId = $request->input('produk_id');
-        $jumlah = $request->input('jumlah');  // Mengambil jumlah dari form
-        $userId = auth()->user()->id_pengguna;  // Menggunakan ID pengguna yang sedang login
+        $jumlah = $request->input('jumlah');
+        $userId = auth()->user()->id_pengguna;
 
-        // Cari produk berdasarkan produk_id
         $produk = Produk::find($produkId);
 
-        // Pastikan produk ditemukan
         if (!$produk) {
             return redirect()->route('cart.index')->with('error', 'Produk tidak ditemukan');
         }
 
-        // Cari produk di keranjang yang sudah ada untuk pengguna ini
         $keranjang = Keranjang::where('id_produk', $produkId)
             ->where('id_pengguna', $userId)
             ->first();
 
         if ($keranjang) {
-            // Jika produk sudah ada di keranjang, update jumlahnya
             $keranjang->jumlah_produk += $jumlah;
             $keranjang->total_harga = $keranjang->jumlah_produk * $produk->harga_produk;  // Update total harga
             $keranjang->save();
         } else {
-            // Jika produk belum ada di keranjang, buat entri baru
             Keranjang::create([
                 'id_produk' => $produkId,
                 'id_pengguna' => $userId,
@@ -96,56 +107,10 @@ class ProdukController extends Controller
 
         return redirect()->route('cart.index')->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
-
-    public function buyNowCheckout(Request $request)
+    public function BuyNow()
     {
-        $request->validate([
-            'produk_id' => 'required|exists:produk,id_produk',
-            'jumlah' => 'required|integer|min:1',
-        ]);
 
-        $produk = Produk::findOrFail($request->produk_id);
-
-        // Cek stok
-        if ($produk->stok_produk < $request->jumlah) {
-            return back()->with('error', 'Stok produk tidak mencukupi.');
-        }
-
-        $produkId = $request->input('produk_id');
-        $jumlah = $request->input('jumlah');
-
-        $produk = Produk::findOrFail($produkId);
-
-        if ($produk->stok_produk < $jumlah) {
-            return redirect()->back()->with('error', 'Stok produk tidak cukup.');
-        }
-
-        $subtotal = $produk->harga_produk * $jumlah;
-        $shippingCost = 0;
-        $discount = 0;
-        $tax = 0;
-        $totalPrice = $subtotal + $shippingCost - $discount + $tax;
-
-        $cartItems = [
-            [
-                'produk' => $produk,
-                'jumlah' => $jumlah,
-                'subtotal' => $subtotal,
-            ]
-        ];
-
-        $data = [
-            'subtotal' => $subtotal,
-            'shipping_cost' => $shippingCost,
-            'discount' => $discount,
-            'tax' => $tax,
-            'total_price' => $totalPrice,
-            'is_buy_now' => true, // tambahan flag
-        ];
-
-        return view('checkout', compact('cartItems', 'data'));
     }
-
 
     public function checkout()
     {
@@ -155,9 +120,10 @@ class ProdukController extends Controller
 
         $subtotal = $cartItems->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
 
-        $shippingCost = 0;
+        $shippingCost = 10000;
         $discount = 0;
-        $tax = 0;
+        $taxRate = 0.1;
+        $tax = $subtotal * $taxRate;
         $totalPrice = $subtotal + $shippingCost - $discount + $tax;
 
         $data = [
@@ -166,13 +132,10 @@ class ProdukController extends Controller
             'discount' => $discount,
             'tax' => $tax,
             'total_price' => $totalPrice,
-            'is_buy_now' => false, // checkout biasa
         ];
 
         return view('checkout', compact('cartItems', 'data'));
     }
-
-
 
     public function paymentProcess(Request $request)
     {
@@ -202,25 +165,15 @@ class ProdukController extends Controller
                     throw new \Exception('Stok tidak cukup untuk produk: ' . $produk->nama_produk);
                 }
 
-                // Hitung subtotal dan update stok
                 $subtotal = $produk->harga_produk * $item['quantity'];
                 $totalHarga += $subtotal;
 
+                // Kurangi stok
                 $produk->update(['stok_produk' => $produk->stok_produk - $item['quantity']]);
 
-                // Buat satu baris detail_pesanan untuk produk ini
-                DetailPesanan::create([
-                    'id_pengguna' => auth()->id(),
-                    'id_produk' => $produk->id_produk,
-                    'jumlah_produk' => $item['quantity'],
-                    'alamat' => $request->address,
-                    'nama_produk' => $produk->nama_produk,
-                    'status_detail_pesanan' => 'on_delivery',
-                    'total_harga' => $subtotal,
-                ]);
-
-                // Simpan data untuk tampilan
+                // Simpan ke array untuk ditampilkan
                 $produkPesanan[] = [
+                    'id_produk' => $produk->id_produk,
                     'nama_produk' => $produk->nama_produk,
                     'jumlah' => $item['quantity'],
                     'harga' => $produk->harga_produk,
@@ -228,24 +181,38 @@ class ProdukController extends Controller
                 ];
             }
 
+            // Hitung total transaksi
+            $shippingCost = 10000;
+            $discount = 0;
+            $taxRate = 0.1;
+            $tax = $totalHarga * $taxRate;
+            $grandTotal = $totalHarga + $shippingCost - $discount + $tax;
+
+            // Simpan ke database (misal: total disimpan hanya di produk pertama)
+            foreach ($produkPesanan as $index => $item) {
+                DetailPesanan::create([
+                    'id_pengguna' => auth()->id(),
+                    'id_produk' => $item['id_produk'],
+                    'jumlah_produk' => $item['jumlah'],
+                    'alamat' => $request->address,
+                    'nama_produk' => $item['nama_produk'],
+                    'status_detail_pesanan' => 'shipping',
+                    'total_harga' => $index === 0 ? $grandTotal : 0, // hanya baris pertama yang simpan grand total
+                ]);
+            }
+
             // Kosongkan keranjang
             Keranjang::where('id_pengguna', auth()->id())->delete();
 
             DB::commit();
 
-            $subtotal = $totalHarga;
-            $shippingCost = 0;
-            $discount = 0;
-            $tax = 0;
-            $totalPrice = $subtotal + $shippingCost - $discount + $tax;
-
             $data = [
                 'produk' => $produkPesanan,
-                'subtotal' => $subtotal,
+                'subtotal' => $totalHarga,
                 'shipping_cost' => $shippingCost,
                 'discount' => $discount,
                 'tax' => $tax,
-                'total_price' => $totalPrice,
+                'total_price' => $grandTotal,
             ];
 
             return view('payment-success', compact('data'));

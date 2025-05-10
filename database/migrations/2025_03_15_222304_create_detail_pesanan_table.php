@@ -10,12 +10,12 @@ return new class extends Migration {
         Schema::create('detail_pesanan', function (Blueprint $table) {
             $table->id('id_detail_pesanan');
             $table->string('nama_produk');
-            $table->string('status_detail_pesanan'); // pending, processed, delivered
+            $table->string('status_detail_pesanan');
             $table->bigInteger('jumlah_produk');
             $table->bigInteger('total_harga');
             $table->string('alamat');
-            $table->unsignedBigInteger('id_pengguna'); // pengguna yang pesan
-            $table->unsignedBigInteger('id_produk'); // produk yang dibeli
+            $table->unsignedBigInteger('id_pengguna');
+            $table->unsignedBigInteger('id_produk');
             $table->timestamps();
 
             $table->foreign('id_pengguna')->references('id_pengguna')->on('pengguna')->onDelete('cascade');

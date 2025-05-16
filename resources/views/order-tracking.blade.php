@@ -39,10 +39,10 @@
                     "></i>
                             </div>
                             <div class="step-label {{ $index <= $currentStep ? 'completed' : 'pending' }}">
-                                {{ $step == 'placed' ? 'Order Placed' : '' }}
-                                {{ $step == 'packed' ? 'Packaging' : '' }}
-                                {{ $step == 'shipping' ? 'On The Road' : '' }}
-                                {{ $step == 'delivered' ? 'Delivered' : '' }}
+                                {{ $step == 'placed' ? 'Pesanan Diterima' : '' }}
+                                {{ $step == 'packed' ? 'Dikemas' : '' }}
+                                {{ $step == 'shipping' ? 'Sedang Dalam Perjalanan' : '' }}
+                                {{ $step == 'delivered' ? 'Diterima' : '' }}
                             </div>
                         </div>
                     @endforeach
@@ -58,7 +58,7 @@
                             <th>Produk</th>
                             <th>Jumalh</th>
                             <th>Harga</th>
-                            <th>Subtotal</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>

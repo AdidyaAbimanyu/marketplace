@@ -19,7 +19,7 @@ Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('detail');
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [ProdukController::class, 'cart'])->name('cart.index');
     Route::post('/cart/add', [ProdukController::class, 'add'])->name('cart.add');
-    Route::post('/buy-now-checkout', [ProdukController::class, 'buyNowCheckout'])->name('buyNowCheckout');
+    Route::post('/buynow', [ProdukController::class, 'buynow'])->name('buynow');
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');
     Route::get('/cart/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
     Route::post('/payment-process', [ProdukController::class, 'paymentProcess'])->name('pembeli.payment-process');

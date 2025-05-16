@@ -22,7 +22,7 @@
                     <input type="text" name="username_pengguna" id="signin_username" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="signin_password" class="form-label">Password</label>
+                    <label for="signin_password" class="form-label">Kata Sandi</label>
                     <div class="input-group">
                         <input type="password" name="password" id="signin_password" class="form-control" required>
                         <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('signin_password')">👁</button>
@@ -35,7 +35,7 @@
             <form id="signUpForm" action="{{ route('register') }}" method="POST" class="d-none">
                 @csrf
                 <div class="mb-3">
-                    <label for="signup_name" class="form-label">Name</label>
+                    <label for="signup_name" class="form-label">Nama</label>
                     <input type="text" name="nama_pengguna" id="signup_name" class="form-control" required>
                 </div>
                 <div class="mb-3">
@@ -47,19 +47,19 @@
                     <input type="text" name="alamat_pengguna" id="signup_address" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="signup_password" class="form-label">Password</label>
+                    <label for="signup_password" class="form-label">Kata Sandi</label>
                     <div class="input-group">
                         <input type="password" name="password" id="signup_password" class="form-control" required>
                         <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('signup_password')">👁</button>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                    <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
                     <div class="input-group">
                         <input type="password" name="password_confirmation" id="confirm_password" class="form-control" required>
                         <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('confirm_password')">👁</button>
                     </div>
-                    <small id="passwordMismatch" class="text-danger d-none">Passwords do not match</small>
+                    <small id="passwordMismatch" class="text-danger d-none">Kata Sandi Tidak Sama</small>
                 </div>
                 <div class="mb-3">
                     <label for="signup_role" class="form-label">Role</label>

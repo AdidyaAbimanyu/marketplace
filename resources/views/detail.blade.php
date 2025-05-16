@@ -4,11 +4,9 @@
 
 @section('content')
     <div class="container py-4 mt-5 pt-5">
-        {{-- Card utama: gambar & info produk --}}
         <div class="row justify-content-center mb-5">
             <div class="col-lg-10">
                 <div class="row border rounded-4 p-4 shadow-sm">
-                    {{-- Gambar produk --}}
                     <div class="col-md-5 border-end pe-4 d-flex justify-content-center align-items-center">
                         @if ($produk->gambar_produk)
                             <img src="{{ asset('storage/' . $produk->gambar_produk) }}" class="img-fluid rounded"
@@ -19,7 +17,6 @@
                     </div>
 
                     <div class="col-md-7 ps-4">
-                        {{-- Rating & Ketersediaan --}}
                         <div class="d-flex align-items-center mb-2">
                             <div class="d-flex align-items-center text-warning">
                                 @for ($i = 0; $i < floor($produk->rating_produk); $i++)
@@ -36,18 +33,13 @@
                             </div>
                         </div>
 
-                        {{-- Nama Produk --}}
                         <h5 class="text-uppercase text-muted">{{ $produk->nama_produk }}</h5>
 
-                        {{-- Harga --}}
                         <h4 class="text-primary mt-2">Rp{{ number_format($produk->harga_produk, 0, ',', '.') }}</h4>
 
-                        {{-- Brand --}}
                         <p><strong>{{ $produk->brand ?? $produk->pengguna->nama_pengguna }}</strong></p>
 
-                        {{-- Tombol Aksi --}}
                         <div class="d-flex flex-column gap-3">
-                            {{-- ADD TO CART --}}
                             <form action="{{ route('cart.add') }}" method="POST" class="d-flex align-items-center gap-3">
                                 @csrf
                                 <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
@@ -62,51 +54,44 @@
                                     <button type="button" class="btn btn-sm border-0 shadow-none px-2"
                                         onclick="ubahJumlah(1)">＋</button>
                                 </div>
-                                <button type="submit" class="btn px-4 py-2"
+                                <button type="submit" class="btn btn-cart px-4 py-2"
                                     style="color: #F05A25; border: 1px solid #F05A25;">
-                                    ADD TO CART
+                                    Tambah ke Keranjang
                                 </button>
                             </form>
 
-                            {{-- BUY NOW --}}
-                            <form id="buyNowForm" action="{{ route('buyNowCheckout') }}" method="POST">
+                            <form action="{{ route('buynow') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
-                                <input type="hidden" name="jumlah" value="1"> {{-- Default 1 --}}
-                                <button type="submit" class="btn text-white px-4 py-2"
-                                    style="background-color: #F05A25;">
-                                    BUY NOW
+                                <input type="hidden" name="id_produk" value="{{ $produk->id_produk }}">
+                                <input type="hidden" name="jumlah" value="1">
+                                <button type="submit" class="btn text-white px-4 py-2" style="background-color: #F05A25;">
+                                    Beli Sekarang
                                 </button>
                             </form>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
 
-        {{-- Card deskripsi & review --}}
         <div class="row justify-content-center" data-aos="fade-up">
             <div class="col-lg-10">
                 <div class="card border rounded-4 shadow-sm p-4">
-                    {{-- Tabs --}}
                     <ul class="nav nav-tabs mb-3 border-0 custom-tabs justify-content-center" id="produkTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc"
                                 type="button" role="tab">
-                                Description
+                                Deskripsi
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review"
                                 type="button" role="tab">
-                                Review
+                                Ulasan
                             </button>
                         </li>
                     </ul>
 
-                    {{-- Konten tab --}}
                     <div class="tab-content" id="produkTabContent">
                         <div class="tab-pane fade show active" id="desc" role="tabpanel">
                             <h6><strong>Deskripsi barang</strong></h6>
@@ -129,7 +114,7 @@
                                         width="50" height="50" class="rounded shadow-sm" style="object-fit: cover;">
                                 </div>
                             @empty
-                                <p>Belum ada review.</p>
+                                <p>Belum ada ulasan.</p>
                             @endforelse
                         </div>
                     </div>

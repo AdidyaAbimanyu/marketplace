@@ -97,11 +97,24 @@
                                 </div>
 
                                 <div class="d-flex gap-2 mt-3">
-                                    <a href="#" class="btn text-white w-100" style="background-color: #F05A25">BELI SEKARANG</a>
-                                    <a href="#" class="btn btn-cart"
-                                        style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">
-                                        <i class="bi bi-cart"></i>
-                                    </a>
+                                    <form action="{{ route('buynow') }}" method="POST" class="w-100">
+                                        @csrf
+                                        <input type="hidden" name="produk_id" value="{{ $topProduct->id_produk }}">
+                                        <input type="hidden" name="jumlah" value="1">
+                                        <button type="submit" class="btn text-white w-100"
+                                            style="background-color: #F05A25">
+                                            BELI SEKARANG
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('cart.add') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="produk_id" value="{{ $topProduct->id_produk }}">
+                                        <input type="hidden" name="jumlah" value="1">
+                                        <button type="submit" class="btn btn-cart"
+                                            style="color: #F05A25; background-color: #EEE1D0; border-color: #F05A25;">
+                                            <i class="bi bi-cart"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </a>

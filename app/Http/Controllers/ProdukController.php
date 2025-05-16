@@ -107,10 +107,30 @@ class ProdukController extends Controller
 
         return redirect()->route('cart.index')->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
-    public function BuyNow()
+    public function buynow(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Harap login terlebih dahulu');
+        }
 
-    }
+        $id_produk = $request->input('produk_id');
+        
+        $jumlah = $request->input('jumlah', 1);
+
+        $produk = Produk::findOrFail($id_produk);
+
+        // Simpan data ke session (bisa disesuaikan)
+        session([
+            'checkout' => [
+                'id_produk' => $produk->id_produk,
+                'nama_produk' => $produk->nama_produk,
+                'harga_produk' => $produk->harga_produk,
+                'jumlah' => $jumlah,
+                'total' => $produk->harga_produk * $jumlah,
+            ]
+        ]);
+            return redirect()->route('cart.checkout');
+        }
 
     public function checkout()
     {

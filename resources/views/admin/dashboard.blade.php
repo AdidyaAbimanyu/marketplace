@@ -8,11 +8,11 @@
             <table class="table table-bordered">
                 <thead>
                     <tr style="background-color: #f7b17c; color: black;">
-                        <th>Name</th>
+                        <th>Nama</th>
                         <th>Username</th>
                         <th>Alamat</th>
                         <th>Role</th>
-                        <th>Action</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +41,7 @@
                                                     data-nama="{{ $user->nama_pengguna }}">
                                                     @csrf
                                                     <button type="submit" class="dropdown-item">
-                                                        <i class="bi bi-arrow-clockwise"></i> Reset Password
+                                                        <i class="bi bi-arrow-clockwise"></i> Reset Kata Sandi
                                                     </button>
                                                 </form>
                                             </li>
@@ -53,7 +53,7 @@
                                             @method('DELETE')
                                             <button class="btn btn-delete" type="submit"
                                                 style="color: #CE6A6C; background-color: #FFE2E3; border-color: #CE6A6C; margin-left: 5px;">
-                                                Delete
+                                                Hapus
                                             </button>
                                         </form>
                                     </div>
@@ -68,7 +68,7 @@
             <div class="d-flex justify-content-end mt-2">
                 <a href="{{ route('admin.add') }}" class="btn btn-outline-secondary d-flex align-items-center"
                     style="border-radius: 8px; padding: 8px 12px;">
-                    <i class="bi bi-plus-circle" style="margin-right: 5px;"></i> Add Account
+                    <i class="bi bi-plus-circle" style="margin-right: 5px;"></i> Tambah Akun
                 </a>
             </div>
         </div>

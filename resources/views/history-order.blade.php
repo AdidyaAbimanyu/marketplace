@@ -29,7 +29,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{ route('pembeli.order-tracking', ['id' => $order->id_detail_pesanan]) }}"
                             class="btn btn-sm btn-outline-primary">
-                            Detil
+                            Detail
                         </a>
                     </div>
                 </div>

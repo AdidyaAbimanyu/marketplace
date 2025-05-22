@@ -114,12 +114,11 @@ class ProdukController extends Controller
         }
 
         $id_produk = $request->input('produk_id');
-        
+
         $jumlah = $request->input('jumlah', 1);
 
         $produk = Produk::findOrFail($id_produk);
 
-        // Simpan data ke session (bisa disesuaikan)
         session([
             'checkout' => [
                 'id_produk' => $produk->id_produk,
@@ -129,16 +128,37 @@ class ProdukController extends Controller
                 'total' => $produk->harga_produk * $jumlah,
             ]
         ]);
-            return redirect()->route('cart.checkout');
-        }
+        return redirect()->route('cart.checkout');
+    }
 
     public function checkout()
     {
-        $cartItems = Keranjang::with('produk')
-            ->where('id_pengguna', auth()->id())
-            ->get();
+        $sessionCheckout = session('checkout');
 
-        $subtotal = $cartItems->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
+        if ($sessionCheckout) {
+            $produk = Produk::find($sessionCheckout['id_produk']);
+
+            if (!$produk) {
+                return redirect()->route('home')->with('error', 'Produk tidak ditemukan');
+            }
+
+            $item = (object) [
+                'produk' => $produk,
+                'jumlah_produk' => $sessionCheckout['jumlah'],
+                'total_harga' => $sessionCheckout['total'],
+                'id_produk' => $sessionCheckout['id_produk'],
+            ];
+
+            $cartItems = collect([$item]);
+
+            $subtotal = $sessionCheckout['total'];
+        } else {
+            $cartItems = Keranjang::with('produk')
+                ->where('id_pengguna', auth()->id())
+                ->get();
+
+            $subtotal = $cartItems->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
+        }
 
         $shippingCost = 10000;
         $discount = 0;

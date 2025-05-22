@@ -70,6 +70,27 @@ class ProdukController extends Controller
         return view('cart', compact('carts', 'data', 'cartCount'));
     }
 
+    public function updateJumlah($id, $aksi)
+    {
+        $cart = Keranjang::findOrFail($id);
+
+        if ($cart->id_pengguna != auth()->id()) {
+            abort(403);
+        }
+
+        if ($aksi === 'plus') {
+            $cart->jumlah_produk += 1;
+        } elseif ($aksi === 'minus') {
+            if ($cart->jumlah_produk > 1) {
+                $cart->jumlah_produk -= 1;
+            }
+        }
+
+        $cart->save();
+
+        return redirect()->route('cart.index');
+    }
+
     public function add(Request $request)
     {
         if (!auth()->check()) {
@@ -128,18 +149,21 @@ class ProdukController extends Controller
                 'total' => $produk->harga_produk * $jumlah,
             ]
         ]);
-        return redirect()->route('cart.checkout');
+        return redirect()->route('cart.checkout', ['from' => 'buynow']);
     }
 
-    public function checkout()
+    public function checkout(Request $request)
     {
+        $isBuyNow = $request->query('from') === 'buynow';
+
         $sessionCheckout = session('checkout');
 
-        if ($sessionCheckout) {
+        // Jika ini dari tombol Beli Sekarang dan session tersedia
+        if ($isBuyNow && $sessionCheckout) {
             $produk = Produk::find($sessionCheckout['id_produk']);
 
             if (!$produk) {
-                return redirect()->route('home')->with('error', 'Produk tidak ditemukan');
+                return redirect()->route('home')->with('error', 'Produk tidak ditemukan.');
             }
 
             $item = (object) [
@@ -150,12 +174,16 @@ class ProdukController extends Controller
             ];
 
             $cartItems = collect([$item]);
-
             $subtotal = $sessionCheckout['total'];
         } else {
+            // Gunakan isi keranjang
             $cartItems = Keranjang::with('produk')
                 ->where('id_pengguna', auth()->id())
                 ->get();
+
+            if ($cartItems->isEmpty()) {
+                return redirect()->route('home')->with('error', 'Keranjang kosong dan tidak ada data checkout.');
+            }
 
             $subtotal = $cartItems->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
         }
@@ -362,6 +390,6 @@ class ProdukController extends Controller
             $cart->delete();
         }
 
-        return redirect()->route('cart.index')->with('success', 'Product removed from cart');
+        return redirect()->route('cart.index')->with('success', 'Produk berhasil dihapus dari keranjang');
     }
 }

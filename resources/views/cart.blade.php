@@ -28,13 +28,17 @@
                                         </td>
                                         <td>Rp.{{ number_format($cart->produk->harga_produk / 1000, 3) }}</td>
                                         <td>
-                                            <div class="input-group" style="max-width: 120px;">
-                                                <button class="btn btn-outline-secondary btn-minus" type="button"
-                                                    data-id="{{ $cart->id }}">−</button>
-                                                <input type="text" class="form-control text-center qty-input"
-                                                    value="{{ $cart->jumlah_produk }}" readonly>
-                                                <button class="btn btn-outline-secondary btn-plus" type="button"
-                                                    data-id="{{ $cart->id }}">+</button>
+                                            <div class="d-flex align-items-center border px-2 py-1"
+                                                style="width: 130px; height: 40px;">
+                                                <a href="{{ route('cart.updateJumlah', ['id' => $cart->id_keranjang, 'aksi' => 'minus']) }}"
+                                                    class="btn btn-sm border-0 shadow-none px-2">−</a>
+                                                <input type="text" name="jumlah"
+                                                    class="form-control border-0 text-center shadow-none px-1"
+                                                    value="{{ $cart->jumlah_produk }}" readonly
+                                                    style="width: 60px; font-weight: 500; font-size: 16px;">
+
+                                                <a href="{{ route('cart.updateJumlah', ['id' => $cart->id_keranjang, 'aksi' => 'plus']) }}"
+                                                    class="btn btn-sm border-0 shadow-none px-2">＋</a>
                                             </div>
                                         </td>
                                         <td>
@@ -52,7 +56,6 @@
                     </div>
                 </div>
 
-                {{-- Ringkasan Cart --}}
                 <div class="col-md-4">
                     <div class="card border p-4">
                         <h6 class="fw-bold mb-3">Total Keranjang</h6>
@@ -80,28 +83,67 @@
                         </a>
                     </div>
                 </div>
-        @else
-            <div class="alert alert-info text-center mt-5">Kamu belum menambahkan produk</div>
+            @else
+                <div class="alert alert-info text-center mt-5">Kamu belum menambahkan produk</div>
         @endif
     </div>
 @endsection
 
 @push('scripts')
     <script>
-        document.querySelectorAll('.btn-plus').forEach(btn => {
-            btn.addEventListener('click', function() {
-                let input = this.parentElement.querySelector('.qty-input');
-                let newQty = parseInt(input.value) + 1;
-                input.value = newQty;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tombol plus dan minus
+            document.querySelectorAll('button[data-action="plus"], button[data-action="minus"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.closest('td').querySelector('.jumlah-input');
+                    const delta = this.dataset.action === 'plus' ? 1 : -1;
+                    ubahJumlah(delta, input);
+                });
             });
-        });
 
-        document.querySelectorAll('.btn-minus').forEach(btn => {
-            btn.addEventListener('click', function() {
-                let input = this.parentElement.querySelector('.qty-input');
-                let newQty = parseInt(input.value) > 1 ? parseInt(input.value) - 1 : 1;
-                input.value = newQty;
+            // Ketika user mengetik langsung
+            document.querySelectorAll('.jumlah-input').forEach(input => {
+                input.addEventListener('input', updateTotalHarga);
             });
+
+            // Fungsi ubah jumlah
+            function ubahJumlah(delta, input) {
+                let current = parseInt(input.value) || 1;
+                const min = parseInt(input.min) || 1;
+                const max = parseInt(input.max) || 1000;
+                current += delta;
+                if (current < min) current = min;
+                if (current > max) current = max;
+                input.value = current;
+                updateTotalHarga();
+            }
+
+            // Fungsi hitung ulang total
+            function updateTotalHarga() {
+                let subtotal = 0;
+                document.querySelectorAll('.jumlah-input').forEach(input => {
+                    const jumlah = parseInt(input.value) || 0;
+                    const harga = parseInt(input.dataset.harga) || 0;
+                    subtotal += jumlah * harga;
+                });
+
+                const shipping = {{ $data['shipping_cost'] }};
+                const discount = {{ $data['discount'] }};
+                const tax = subtotal * 0.1;
+                const total = subtotal + shipping - discount + tax;
+
+                document.getElementById('subtotal-display').innerText = formatRupiah(subtotal);
+                document.querySelectorAll('.d-flex span:nth-child(2)')[2].innerText = formatRupiah(tax);
+                document.querySelector('.text-primary').innerText = formatRupiah(total);
+            }
+
+            // Format angka ke Rupiah
+            function formatRupiah(angka) {
+                return 'Rp ' + angka.toLocaleString('id-ID');
+            }
+
+            // Inisialisasi awal
+            updateTotalHarga();
         });
     </script>
 @endpush

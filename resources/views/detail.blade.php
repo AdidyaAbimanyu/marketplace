@@ -47,7 +47,7 @@
                                 <div class="d-flex align-items-center border px-2 py-1" style="width: 130px; height: 40px;">
                                     <button type="button" class="btn btn-sm border-0 shadow-none px-2"
                                         onclick="ubahJumlah(-1)">−</button>
-                                    <input type="number" name="jumlah" id="jumlahInput"
+                                    <input type="text" name="jumlah" id="jumlahInput"
                                         class="form-control border-0 text-center shadow-none px-1" value="1"
                                         min="1" max="{{ $produk->stok_produk }}"
                                         style="width: 60px; font-weight: 500; font-size: 16px;">

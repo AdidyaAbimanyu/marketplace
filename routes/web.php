@@ -18,6 +18,7 @@ Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('detail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [ProdukController::class, 'cart'])->name('cart.index');
+    Route::get('/cart/update/{id}/{aksi}', [ProdukController::class, 'updateJumlah'])->name('cart.updateJumlah');
     Route::post('/cart/add', [ProdukController::class, 'add'])->name('cart.add');
     Route::post('/buynow', [ProdukController::class, 'buynow'])->name('buynow');
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');

@@ -1,11 +1,9 @@
 <nav class="navbar navbar-expand-lg shadow-sm fixed-top" style="background-color: #D5EDFF; padding: 10px;">
     <div class="container d-flex justify-content-between align-items-center">
-        <!-- Logo -->
         <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ asset('static/images/icon.png') }}" alt="SPOT" width="80" height="80">
         </a>
 
-        <!-- Search Bar -->
         <form action="{{ route('search') }}" method="GET" class="d-flex mx-auto" role="search" style="width: 50%;">
             <input class="form-control me-2 border border-warning" type="search" placeholder="Cari apapun..."
                 aria-label="Search" name="search">
@@ -13,10 +11,8 @@
                 style="background-color: #FF5722; border-radius: 5px;">Cari</button>
         </form>
 
-        <!-- Right Section (Cart & User) -->
         <div class="d-flex align-items-center">
             @if (Auth::check())
-                <!-- Cart Icon -->
                 <a href="{{ route('cart.index') }}" class="me-3 position-relative">
                     <img src="{{ asset('static/images/cart.png') }}" alt="Cart" width="30">
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -24,7 +20,6 @@
                     </span>
                 </a>
 
-                <!-- Profile Dropdown -->
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">

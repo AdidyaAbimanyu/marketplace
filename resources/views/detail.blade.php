@@ -39,11 +39,12 @@
 
                         <p><strong>{{ $produk->brand ?? $produk->pengguna->nama_pengguna }}</strong></p>
 
-                        <div class="d-flex flex-column gap-3">
-                            <form action="{{ route('cart.add') }}" method="POST" class="d-flex align-items-center gap-3">
+                        <div class="d-flex flex-column gap-3" style="width: 65%;">
+                            <form action="{{ route('cart.add') }}" method="POST"
+                                class="d-flex align-items-center gap-3 w-100">
                                 @csrf
                                 <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
-                                {{-- Kontrol jumlah --}}
+
                                 <div class="d-flex align-items-center border px-2 py-1" style="width: 130px; height: 40px;">
                                     <button type="button" class="btn btn-sm border-0 shadow-none px-2"
                                         onclick="ubahJumlah(-1)">−</button>
@@ -54,17 +55,19 @@
                                     <button type="button" class="btn btn-sm border-0 shadow-none px-2"
                                         onclick="ubahJumlah(1)">＋</button>
                                 </div>
-                                <button type="submit" class="btn btn-cart px-4 py-2"
+
+                                <button type="submit" class="btn btn-cart px-4 py-2 flex-grow-1"
                                     style="color: #F05A25; border: 1px solid #F05A25;">
                                     Tambah ke Keranjang
                                 </button>
                             </form>
 
-                            <form action="{{ route('buynow') }}" method="POST">
+                            <form action="{{ route('buynow') }}" method="POST" class="w-100">
                                 @csrf
                                 <input type="hidden" name="produk_id" value="{{ $produk->id_produk }}">
-                                <input type="hidden" name="jumlah" value="1">
-                                <button type="submit" class="btn text-white px-4 py-2" style="background-color: #F05A25;">
+                                <input type="hidden" name="jumlah" id="jumlahBuyNow" value="1">
+                                <button type="submit" class="btn text-white px-5 py-2 w-100"
+                                    style="background-color: #F05A25;">
                                     Beli Sekarang
                                 </button>
                             </form>

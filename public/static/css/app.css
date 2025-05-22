@@ -39,7 +39,7 @@ body {
     transform: scale(1.05); /* Bisa 1.1 atau 1.2 sesuai selera */
 }
 
-.btn-cart:hover, .btn-history:hover {
+.btn-cart:hover, .btn-history:hover, .btn-detail:hover {
     background-color: #F05A25 !important;
     color: #ffffff !important;
 }

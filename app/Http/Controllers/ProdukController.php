@@ -9,7 +9,6 @@ use App\Models\Keranjang;
 use App\Models\Review;
 use DB;
 use Illuminate\Http\Request;
-use Auth;
 
 class ProdukController extends Controller
 {
@@ -51,7 +50,6 @@ class ProdukController extends Controller
         $carts = auth()->user()->keranjang()->with('produk')->get();
 
         $subtotal = $carts->sum(fn($item) => $item->produk->harga_produk * $item->jumlah_produk);
-        $cartCount = $carts->count();
 
         $shippingCost = 10000;
         $discount = 0;
@@ -67,7 +65,7 @@ class ProdukController extends Controller
             'total_price' => $totalPrice,
         ];
 
-        return view('cart', compact('carts', 'data', 'cartCount'));
+        return view('cart', compact('carts', 'data'));
     }
 
     public function updateJumlah($id, $aksi)

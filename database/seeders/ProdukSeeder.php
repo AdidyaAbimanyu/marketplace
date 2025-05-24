@@ -10,7 +10,6 @@ class ProdukSeeder extends Seeder
 {
     public function run(): void
     {
-        // Brand => Kategori
         $brandKategoriMap = [
             'Apple' => 'elektronik',
             'Maybelline' => 'makeup',

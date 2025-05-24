@@ -173,7 +173,6 @@ class ProdukController extends Controller
             $cartItems = collect([$item]);
             $subtotal = $sessionCheckout['total'];
         } else {
-            // Gunakan isi keranjang
             $cartItems = Keranjang::with('produk')
                 ->where('id_pengguna', auth()->id())
                 ->get();
@@ -253,7 +252,7 @@ class ProdukController extends Controller
                     'jumlah_produk' => $item['jumlah'],
                     'alamat' => $request->address,
                     'nama_produk' => $item['nama_produk'],
-                    'status_detail_pesanan' => 'shipping',
+                    'status_detail_pesanan' => 'waiting_to_approve',
                     'total_harga' => $index === 0 ? $grandTotal : 0, // hanya baris pertama yg menyimpan total harga
                 ]);
             }
@@ -262,88 +261,6 @@ class ProdukController extends Controller
 
             DB::commit();
 
-            $data = [
-                'produk' => $produkPesanan,
-                'subtotal' => $totalHarga,
-                'shipping_cost' => $shippingCost,
-                'discount' => $discount,
-                'tax' => $tax,
-                'total_price' => $grandTotal,
-            ];
-
-            return view('payment-success', compact('data'));
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->withErrors(['items' => $e->getMessage()]);
-        }
-    }
-
-    public function paymentSuccess(Request $request)
-    {
-        $request->validate([
-            'address' => 'required|string|max:255',
-            'items' => 'required|array|min:1',
-            'items.*.id_produk' => 'required|integer|exists:produk,id_produk',
-            'items.*.quantity' => 'required|integer|min:1',
-        ]);
-
-        try {
-            DB::beginTransaction();
-
-            $totalHarga = 0;
-            $produkPesanan = [];
-
-            foreach ($request->items as $item) {
-                $produk = Produk::where('id_produk', $item['id_produk'])
-                    ->where('stok_produk', '>=', $item['quantity'])
-                    ->first();
-
-                if (!$produk) {
-                    throw new \Exception('Produk tidak ditemukan atau stok tidak cukup: ' . $item['id_produk']);
-                }
-
-                $subtotal = $produk->harga_produk * $item['quantity'];
-                $totalHarga += $subtotal;
-
-                // Kurangi stok
-                $produk->decrement('stok_produk', $item['quantity']);
-
-                $produkPesanan[] = [
-                    'id_produk' => $produk->id_produk,
-                    'nama_produk' => $produk->nama_produk,
-                    'jumlah' => $item['quantity'],
-                    'harga' => $produk->harga_produk,
-                    'subtotal' => $subtotal,
-                ];
-            }
-
-            // Biaya tambahan
-            $shippingCost = 10000;
-            $discount = 0;
-            $taxRate = 0.1;
-            $tax = $totalHarga * $taxRate;
-            $grandTotal = $totalHarga + $shippingCost - $discount + $tax;
-
-            // Simpan ke tabel detailpesanan
-            foreach ($produkPesanan as $index => $item) {
-                DetailPesanan::create([
-                    'id_pengguna' => auth()->id(),
-                    'id_produk' => $item['id_produk'],
-                    'jumlah_produk' => $item['jumlah'],
-                    'alamat' => $request->address,
-                    'nama_produk' => $item['nama_produk'],
-                    'status_detail_pesanan' => 'shipping',
-                    'total_harga' => $index === 0 ? $grandTotal : 0, // hanya baris pertama menyimpan total
-                ]);
-            }
-
-            // Hapus keranjang pengguna
-            Keranjang::where('id_pengguna', auth()->id())->delete();
-
-            DB::commit();
-
-            // Kirim ke halaman sukses
             $data = [
                 'produk' => $produkPesanan,
                 'subtotal' => $totalHarga,

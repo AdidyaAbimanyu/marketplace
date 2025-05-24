@@ -8,7 +8,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\DetailPesanan;
 
 class AdministratorController extends Controller
 {
@@ -21,6 +21,45 @@ class AdministratorController extends Controller
             ->pluck('total', 'role');
 
         return view('admin.dashboard', compact('pengguna', 'jumlahPenggunaPerRole'));
+    }
+
+    public function approvement()
+    {
+        $pengguna = Pengguna::where('role', 'penjual')->get();
+        $pesananMenunggu = DetailPesanan::where('status_detail', 'waiting_to_approve')->get();
+        return view('admin.approve', compact('pengguna', 'pesananMenunggu'));
+    }
+
+    public function approve($id)
+    {
+        try {
+            // Find the order
+            $pesanan = DetailPesanan::find($id);
+
+            if (!$pesanan) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Pesanan tidak ditemukan'
+                ], 404);
+            }
+
+            // Update status
+            $pesanan->status_detail_pesanan = 'shipping'; // atau status yang sesuai
+            $pesanan->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Pesanan berhasil di-approve!'
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Error approving order: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function add()

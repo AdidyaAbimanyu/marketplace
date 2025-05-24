@@ -24,7 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');
     Route::get('/cart/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
     Route::post('/payment-process', [ProdukController::class, 'fakePayment'])->name('pembeli.payment-process');
-    Route::get('/payment-success', [ProdukController::class, 'paymentSuccess'])->name('pembeli.payment-success');
     Route::get('/history-order', [ProdukController::class, 'historyOrder'])->name('pembeli.history-order');
     Route::get('/order-tracking/{id}', [ProdukController::class, 'orderTracking'])->name('pembeli.order-tracking');
     Route::post('/orders/confirm/{id}', [ProdukController::class, 'confirm'])->name('orders.confirm');
@@ -43,6 +42,7 @@ Route::middleware('role:penjual')->group(function () {
 });
 
 Route::middleware('role:admin')->group(function () {
+    Route::post('/approvement/approve/{id}', [AdministratorController::class, 'approve'])->name('approve.order');
     Route::get('/admin', [AdministratorController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/pengguna/create', [AdministratorController::class, 'add'])->name('admin.add');
     Route::post('/admin/pengguna/store', [AdministratorController::class, 'store'])->name('admin.store');

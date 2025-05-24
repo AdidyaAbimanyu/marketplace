@@ -19,6 +19,8 @@
                             <strong>Status:</strong> Sedang Dikirim <br>
                         @elseif ($order->status_detail_pesanan == 'delivered')
                             <strong>Status:</strong> Terkirim <br>
+                        @else
+                            <strong>Status:</strong> Menunggu Pembayaran <br>
                         @endif
                         <strong>Nama:</strong> {{ $order->nama_produk }} <br>
                         <strong>Alamat:</strong> {{ $order->alamat }} <br>

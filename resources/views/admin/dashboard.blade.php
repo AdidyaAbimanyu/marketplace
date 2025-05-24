@@ -4,7 +4,13 @@
 
 @section('content')
     <main class="container mt-5 pt-5" data-aos="fade-up">
-        <div class="card p-3 mt-3" style="border-radius: 10px;">
+        <div class="mb-4 text-center mt-5">
+            <div class="card p-3" style="border-radius: 10px;">
+                <h5 class="mb-3">Jumlah Pengguna per Role</h5>
+                <canvas id="userRoleChart" height="200"></canvas>
+            </div>
+        </div>
+        <div class="card p-3 mt-5" style="border-radius: 10px;">
             <table class="table table-bordered">
                 <thead>
                     <tr style="background-color: #f7b17c; color: black;">
@@ -70,13 +76,6 @@
                     style="border-radius: 8px; padding: 8px 12px;">
                     <i class="bi bi-plus-circle" style="margin-right: 5px;"></i> Tambah Akun
                 </a>
-            </div>
-        </div>
-
-        <div class="mb-4 text-center mt-5">
-            <div class="card p-3" style="border-radius: 10px;">
-                <h5 class="mb-3">Jumlah Pengguna per Role</h5>
-                <canvas id="userRoleChart" height="200"></canvas>
             </div>
         </div>
     </main>

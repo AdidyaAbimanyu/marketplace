@@ -66,6 +66,16 @@
                                 </td>
                             </tr>
                         </table>
+                        <!-- Pilihan metode pembayaran palsu -->
+                        <div class="mb-3">
+                            <label for="payment_method" class="form-label">Pilih Metode Pembayaran</label>
+                            <select name="payment_method" id="payment_method" class="form-select" required>
+                                <option value="" disabled selected>-- Pilih Metode Pembayaran --</option>
+                                <option value="transfer_bank">Transfer Bank</option>
+                                <option value="cod">Cash on Delivery</option>
+                                <option value="e_wallet">QRIS</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn text-white w-100 fw-bold mt-3" style="background-color: #F05A25">
                             PEMBAYARAN →</i>
                         </button>

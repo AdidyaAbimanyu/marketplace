@@ -41,8 +41,8 @@ class ProdukSeeder extends Seeder
                         'jumlah_produk_terjual' => 0,
                         'jumlah_review_produk' => 0,
                         'rating_produk' => 0.0,
-                        'stok_produk' => rand(10, 100),
-                        'harga_produk' => rand(10000, 100000),
+                        'stok_produk' => 10,
+                        'harga_produk' => 100000,
                         'id_pengguna' => $penjual->id_pengguna,
                         'gambar_produk' => 'produk/default.png',
                     ]);

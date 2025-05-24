@@ -57,26 +57,38 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card border p-4">
-                        <h6 class="fw-bold mb-3">Total Keranjang</h6>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Pengiriman</span>
-                            <span class="text-black">Rp {{ number_format($data['shipping_cost'], 0, ',', '.') }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Diskon</span>
-                            <span class="text-black">Rp {{ number_format($data['discount'], 0, ',', '.') }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Pajak</span>
-                            <span class="text-black">Rp {{ number_format($data['tax'], 0, ',', '.') }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between fw-bold mt-3">
-                            <span>TOTAL</span>
-                            <span class="text-primary">Rp {{ number_format($data['total_price'], 0, ',', '.') }}</span>
-                        </div>
+                    <div class="border p-4">
+                        <h5>Total Keranjang</h5>
+                        <table class="table borderless">
+                            <tr>
+                                <td>Sub Total</td>
+                                <td class="text-end">Rp.{{ number_format($data['subtotal'], 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td>Pengiriman</td>
+                                <td class="text-end text-success">
+                                    {{ $data['shipping_cost'] > 0 ? 'Rp.' . number_format($data['shipping_cost'], 0, ',', '.') : 'Free' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Diskon</td>
+                                <td class="text-end text-success">Rp.{{ number_format($data['discount'], 0, ',', '.') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Pajak</td>
+                                <td class="text-end">Rp.{{ number_format($data['tax'], 0, ',', '.') }}</td>
+                            </tr>
+                            <hr>
+                            <tr>
+                                <td><strong>TOTAL</strong></td>
+                                <td class="text-end text-primary">
+                                    <strong>Rp.{{ number_format($data['total_price'], 0, ',', '.') }}</strong>
+                                </td>
+                            </tr>
+                        </table>
                         <a href="{{ route('cart.checkout') }}" class="text-decoration-none mt-5">
-                            <button type="submit" id="signUpBtn" class="btn w-100"
+                            <button type="submit" id="signUpBtn" class="btn text-white w-100 fw-bold mt-3"
                                 style="background-color: #FF5722; color: white;">
                                 CHECKOUT →
                             </button>

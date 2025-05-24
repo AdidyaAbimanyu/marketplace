@@ -70,7 +70,6 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // Tambahkan 10 user pembeli untuk review
         for ($i = 1; $i <= 10; $i++) {
             Pengguna::create([
                 'nama_pengguna' => 'Pembeli ' . $i,

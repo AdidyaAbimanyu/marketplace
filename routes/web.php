@@ -23,7 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/buynow', [ProdukController::class, 'buynow'])->name('buynow');
     Route::delete('/cart/{cart}', [ProdukController::class, 'destroy'])->name('cart.destroy');
     Route::get('/cart/checkout', [ProdukController::class, 'checkout'])->name('cart.checkout');
-    Route::post('/payment-process', [ProdukController::class, 'paymentProcess'])->name('pembeli.payment-process');
+    Route::post('/payment-process', [ProdukController::class, 'fakePayment'])->name('pembeli.payment-process');
+    Route::get('/payment-success', [ProdukController::class, 'paymentSuccess'])->name('pembeli.payment-success');
     Route::get('/history-order', [ProdukController::class, 'historyOrder'])->name('pembeli.history-order');
     Route::get('/order-tracking/{id}', [ProdukController::class, 'orderTracking'])->name('pembeli.order-tracking');
     Route::post('/orders/confirm/{id}', [ProdukController::class, 'confirm'])->name('orders.confirm');

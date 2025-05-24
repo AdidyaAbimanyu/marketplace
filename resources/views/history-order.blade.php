@@ -20,6 +20,7 @@
                         @elseif ($order->status_detail_pesanan == 'delivered')
                             <strong>Status:</strong> Terkirim <br>
                         @endif
+                        <strong>Nama:</strong> {{ $order->nama_produk }} <br>
                         <strong>Alamat:</strong> {{ $order->alamat }} <br>
                         <strong>Total:</strong> Rp {{ number_format($order->total_harga, 0, ',', '.') }} <br>
                         <strong>Jumlah:</strong> {{ $order->jumlah_produk }} produk<br>

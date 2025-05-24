@@ -16,7 +16,7 @@ class DetailPesananFactory extends Factory
     {
         return [
             'nama_produk' => $this->faker->word(),
-            'status_detail_pesanan' => $this->faker->randomElement(['placed', 'packed', 'shipping', 'delivered']),
+            'status_detail_pesanan' => $this->faker->randomElement(['Waiting for Payment', 'placed', 'packed', 'shipping', 'delivered']),
             'total_harga' => $this->faker->numberBetween(10000, 500000),
             'id_pengguna' => Pengguna::factory(),
             'id_keranjang' => Keranjang::factory(),

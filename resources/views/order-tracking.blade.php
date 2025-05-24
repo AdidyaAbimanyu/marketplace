@@ -18,7 +18,7 @@
 
             @php
                 $status = $order->status_detail_pesanan;
-                $steps = ['placed', 'packed', 'shipping', 'delivered'];
+                $steps = ['Waiting for Approve', 'placed', 'packed', 'shipping', 'delivered'];
                 $currentStep = array_search($status, $steps);
             @endphp
 
@@ -32,6 +32,7 @@
                             <div class="step-icon {{ $index <= $currentStep ? 'completed' : '' }}">
                                 <i
                                     class="
+                        {{ $step == 'Waiting for Approve' ? 'bi bi-clock' : '' }}
                         {{ $step == 'placed' ? 'bi bi-card-list' : '' }}
                         {{ $step == 'packed' ? 'bi bi-box-seam' : '' }}
                         {{ $step == 'shipping' ? 'bi bi-truck' : '' }}
@@ -39,6 +40,7 @@
                     "></i>
                             </div>
                             <div class="step-label {{ $index <= $currentStep ? 'completed' : 'pending' }}">
+                                {{ $step == 'Waiting for Approve' ? 'Menunggu Pembayaran' : '' }}
                                 {{ $step == 'placed' ? 'Pesanan Diterima' : '' }}
                                 {{ $step == 'packed' ? 'Dikemas' : '' }}
                                 {{ $step == 'shipping' ? 'Sedang Dalam Perjalanan' : '' }}
@@ -49,7 +51,6 @@
                 </div>
             </div>
 
-            <!-- Order Items -->
             <h5 class="mb-3">Order Items</h5>
             <div class="table-responsive">
                 <table class="table table-bordered text-center">

@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Authentication')
+@section('title', 'Autentikasi')
 
 @section('content')
     <div class="container mt-5 py-5 d-flex justify-content-center" data-aos="fade-up">
         <div class="card p-4" style="width: 400px; border-color: #FF5722;">
             <ul class="nav nav-tabs mb-3 justify-content-center">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#" id="signInTab" style="color: #FF5722;">Sign In</a>
+                    <a class="nav-link active" href="#" id="signInTab" style="color: #FF5722;">Masuk</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="signUpTab" style="color: #FF5722;">Sign Up</a>
+                    <a class="nav-link" href="#" id="signUpTab" style="color: #FF5722;">Daftar</a>
                 </li>
             </ul>
 
@@ -28,7 +28,7 @@
                         <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('signin_password')">👁</button>
                     </div>
                 </div>
-                <button type="submit" id="signInBtn" class="btn w-100" style="background-color: #FF5722; color: white;" disabled>SIGN IN →</button>
+                <button type="submit" id="signInBtn" class="btn w-100" style="background-color: #FF5722; color: white;" disabled>Masuk →</button>
             </form>
 
             <!-- Sign Up Form -->
@@ -68,7 +68,7 @@
                         <option value="penjual">Penjual</option>
                     </select>
                 </div>
-                <button type="submit" id="signUpBtn" class="btn w-100" style="background-color: #FF5722; color: white;" disabled>SIGN UP →</button>
+                <button type="submit" id="signUpBtn" class="btn w-100" style="background-color: #FF5722; color: white;" disabled>Daftar →</button>
             </form>
         </div>
     </div>

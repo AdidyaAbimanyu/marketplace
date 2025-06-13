@@ -294,33 +294,40 @@ class ProdukController extends Controller
         return view('review', compact('product'));
     }
 
-    public function submitReview(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|exists:produk,id_produk',
-            'rating' => 'required|integer|min:1|max:5',
-            'review' => 'required|string',
-            'gambar_review' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+public function submitReview(Request $request)
+{
+    $request->validate([
+        'product_id' => 'required|exists:produk,id_produk',
+        'rating' => 'required|integer|min:1|max:5',
+        'review' => 'required|string',
+        'gambar_review' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        if ($request->hasFile('gambar_review')) {
-            $fotoPath = $request->file('gambar_review')->store('review', 'public');
-        }
+    // Cek apakah user sudah pernah review produk ini
+    $alreadyReviewed = Review::where('id_produk', $request->product_id)
+        ->where('id_pengguna', auth()->id())
+        ->exists();
 
-        Review::create([
-            'id_produk' => $request->product_id,
-            'id_pengguna' => auth()->id(),
-            'rating_review' => $request->rating,
-            'isi_review' => $request->review,
-            'gambar_review' => $fotoPath,
-        ]);
-
-        return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
-
-        if ($alreadyReviewed) {
-            return redirect()->back()->withErrors(['review' => 'Kamu sudah memberikan ulasan untuk produk ini.']);
-        }
+    if ($alreadyReviewed) {
+        return redirect()->back()->withErrors(['review' => 'Kamu sudah memberikan ulasan untuk produk ini.']);
     }
+
+    $fotoPath = null;
+    if ($request->hasFile('gambar_review')) {
+        $fotoPath = $request->file('gambar_review')->store('review', 'public');
+    }
+
+    Review::create([
+        'id_produk' => $request->product_id,
+        'id_pengguna' => auth()->id(),
+        'rating_review' => $request->rating,
+        'isi_review' => $request->review,
+        'gambar_review' => $fotoPath,
+    ]);
+
+    return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
+}
+
 
     public function storeReview(Request $request, $id)
     {
@@ -359,7 +366,7 @@ class ProdukController extends Controller
     {
         $order = DetailPesanan::findOrFail($id);
 
-        if ($order->status_detail_pesanan == 'on_delivery') {
+        if ($order->status_detail_pesanan == 'shipping') {
             $order->status_detail_pesanan = 'delivered';
             $order->save();
         }

@@ -57,7 +57,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Produk</th>
-                            <th>Jumalh</th>
+                            <th>Jumlah</th>
                             <th>Harga</th>
                             <th>Total</th>
                         </tr>
@@ -79,7 +79,7 @@
 
             <!-- Button Area -->
             <div class="d-flex justify-content-end mt-4">
-                @if ($order->status_detail_pesanan == 'on_delivery')
+                @if ($order->status_detail_pesanan == 'shipping')
                     <form action="{{ route('orders.confirm', $order->id_detail_pesanan) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-success">

@@ -9,10 +9,10 @@
                 <div class="row border rounded-4 p-4 shadow-sm">
                     <div class="col-md-5 border-end pe-4 d-flex justify-content-center align-items-center">
                         @if ($produk->gambar_produk)
-                            <img src="{{ secure_asset('public/' . $produk->gambar_produk) }}" class="img-fluid rounded"
+                            <img src="{{ secure_asset($produk->gambar_produk) }}" class="img-fluid rounded"
                                 alt="{{ $produk->nama_produk }}">
                         @else
-                            <img src="{{ secure_asset('public/produk/default.png') }}" class="img-fluid rounded" alt="No Product Image">
+                            <img src="{{ secure_asset('produk/default.png') }}" class="img-fluid rounded" alt="No Product Image">
                         @endif
                     </div>
 

@@ -20,7 +20,7 @@
                         <tr>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center align-items-center gap-3">
-                                    <img src="{{ secure_asset('public/' . $item->gambar_produk) }}" alt="{{ $item->nama_produk }}"
+                                    <img src="{{ secure_asset('produk/' . $item->gambar_produk) }}" alt="{{ $item->nama_produk }}"
                                         width="50" height="50" class="rounded shadow-sm" style="object-fit: cover;">
                                     <div class="text-start">
                                         <strong>{{ $item->nama_produk }}</strong><br>

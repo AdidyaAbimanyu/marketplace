@@ -11,7 +11,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <a href="{{ route('detail', $item->id_produk) }}" class="text-decoration-none text-dark">
                             <div class="bg-white rounded shadow-sm p-3 h-100 d-flex flex-column show-item">
-                                <img src="{{ secure_asset('storage/' . $item->gambar_produk) }}" class="product-image img-fluid mb-3"
+                                <img src="{{ secure_asset($item->gambar_produk) }}" class="product-image img-fluid mb-3"
                                     alt="{{ $item->nama_produk }}">
                                 <div class="d-flex align-items-center mb-2">
                                     <p class="text-warning mb-1">

@@ -9,10 +9,10 @@
                 <div class="row border rounded-4 p-4 shadow-sm">
                     <div class="col-md-5 border-end pe-4 d-flex justify-content-center align-items-center">
                         @if ($produk->gambar_produk)
-                            <img src="{{ secure_asset('storage/' . $produk->gambar_produk) }}" class="img-fluid rounded"
+                            <img src="{{ secure_asset($produk->gambar_produk) }}" class="img-fluid rounded"
                                 alt="{{ $produk->nama_produk }}">
                         @else
-                            <img src="{{ secure_asset('images/no-image.png') }}" class="img-fluid rounded" alt="No Product Image">
+                            <img src="{{ secure_asset('produk/default.png') }}" class="img-fluid rounded" alt="No Product Image">
                         @endif
                     </div>
 
@@ -113,7 +113,7 @@
                                     </div>
                                     <strong>{{ Str::limit($review->pengguna->nama_pengguna, 5, '**') }}</strong>
                                     <p class="mb-0">{{ $review->isi_review }}</p>
-                                    <img src="{{ secure_asset('storage/' . $review->gambar_review) }}" alt="Review Image"
+                                    <img src="{{ secure_asset($review->gambar_review) }}" alt="Review Image"
                                         width="50" height="50" class="rounded shadow-sm" style="object-fit: cover;">
                                 </div>
                             @empty

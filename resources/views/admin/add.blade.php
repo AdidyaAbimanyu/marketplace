@@ -23,7 +23,8 @@
                 <div class="mb-3">
                     <label for="signup_password" class="form-label">Password</label>
                     <div class="input-group">
-                        <input type="password" name="password" id="signup_password" class="form-control" required>
+                        <input type="password" name="password" id="signup_password" class="form-control" required
+                            autocomplete="new-password">
                         <button type="button" class="btn btn-outline-secondary"
                             onclick="togglePassword('signup_password')">👁</button>
                     </div>
@@ -31,8 +32,8 @@
                 <div class="mb-3">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
                     <div class="input-group">
-                        <input type="password" name="password_confirmation" id="password_confirmation"
-                            class="form-control" required>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
+                            required autocomplete="new-password">
                         <button type="button" class="btn btn-outline-secondary"
                             onclick="togglePassword('password_confirmation')">👁</button>
                     </div>

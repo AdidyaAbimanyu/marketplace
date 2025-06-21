@@ -22,9 +22,13 @@
                                 @foreach ($carts as $cart)
                                     <tr>
                                         <td class="d-flex align-items-center gap-3">
-                                            <img src="{{ secure_asset('storage/' . $cart->produk->gambar_produk) }}"
+                                        <td class="d-flex align-items-center gap-3">
+                                            <img src="{{ secure_asset($cart->produk->gambar_produk) }}"
                                                 alt="Product Image" width="50">
                                             <span>{{ $cart->produk->nama_produk }}</span>
+                                        </td>
+
+                                        <span>{{ $cart->produk->nama_produk }}</span>
                                         </td>
                                         <td>Rp.{{ number_format($cart->produk->harga_produk / 1000, 3) }}</td>
                                         <td>

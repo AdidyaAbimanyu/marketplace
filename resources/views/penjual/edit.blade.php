@@ -85,9 +85,8 @@
                         </label>
                         <input type="file" name="gambar_produk" id="gambar_produk" class="d-none" accept="image/*">
 
-                        <!-- PREVIEW -->
                         <div class="mt-3">
-                            <img id="preview-image" src="{{ secure_asset('storage/' . $produk->gambar_produk) }}"
+                            <img id="preview-image" src="{{ secure_asset($produk->gambar_produk) }}"
                                 alt="Preview Gambar" class="img-fluid" style="max-height: 200px; border-radius: 8px;">
                         </div>
                     </div>

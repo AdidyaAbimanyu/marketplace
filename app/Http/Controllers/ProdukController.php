@@ -294,40 +294,42 @@ class ProdukController extends Controller
         return view('review', compact('product'));
     }
 
-public function submitReview(Request $request)
-{
-    $request->validate([
-        'product_id' => 'required|exists:produk,id_produk',
-        'rating' => 'required|integer|min:1|max:5',
-        'review' => 'required|string',
-        'gambar_review' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    public function submitReview(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:produk,id_produk',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string',
+            'gambar_review' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    // Cek apakah user sudah pernah review produk ini
-    $alreadyReviewed = Review::where('id_produk', $request->product_id)
-        ->where('id_pengguna', auth()->id())
-        ->exists();
+        // Cek apakah user sudah pernah review produk ini
+        $alreadyReviewed = Review::where('id_produk', $request->product_id)
+            ->where('id_pengguna', auth()->id())
+            ->exists();
 
-    if ($alreadyReviewed) {
-        return redirect()->back()->withErrors(['review' => 'Kamu sudah memberikan ulasan untuk produk ini.']);
+        if ($alreadyReviewed) {
+            return redirect()->back()->withErrors(['review' => 'Kamu sudah memberikan ulasan untuk produk ini.']);
+        }
+
+        $fotoPath = null;
+        if ($request->hasFile('gambar_review')) {
+            $file = $request->file('gambar_review');
+            $namaFile = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('review'), $namaFile);
+            $fotoPath = $namaFile;
+        }
+
+        Review::create([
+            'id_produk' => $request->product_id,
+            'id_pengguna' => auth()->id(),
+            'rating_review' => $request->rating,
+            'isi_review' => $request->review,
+            'gambar_review' => $fotoPath,
+        ]);
+
+        return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
     }
-
-    $fotoPath = null;
-    if ($request->hasFile('gambar_review')) {
-        $fotoPath = $request->file('gambar_review')->store('review', 'public');
-    }
-
-    Review::create([
-        'id_produk' => $request->product_id,
-        'id_pengguna' => auth()->id(),
-        'rating_review' => $request->rating,
-        'isi_review' => $request->review,
-        'gambar_review' => $fotoPath,
-    ]);
-
-    return redirect()->route('pembeli.history-order')->with('success', 'Review berhasil dikirim!');
-}
-
 
     public function storeReview(Request $request, $id)
     {
@@ -344,14 +346,17 @@ public function submitReview(Request $request)
         $review->komentar = $validated['review'];
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('reviews', 'public');
-            $review->foto = $path;
+            $photo = $request->file('photo');
+            $namaFile = uniqid() . '.' . $photo->getClientOriginalExtension();
+            $photo->move(public_path('reviews'), $namaFile);
+            $review->foto = $namaFile;
         }
 
         $review->save();
 
         return redirect()->route('history-order')->with('success', 'Review berhasil dikirim!');
     }
+
 
     public function orderTracking($id)
     {

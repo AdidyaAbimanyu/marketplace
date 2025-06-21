@@ -35,7 +35,9 @@ class PenjualController extends Controller
             'gambar_produk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $gambarPath = $request->file('gambar_produk')->store('produk', 'public');
+        $gambarFile = $request->file('gambar_produk');
+        $namaFile = uniqid() . '.' . $gambarFile->getClientOriginalExtension();
+        $gambarFile->move(public_path('produk'), $namaFile);
 
         Produk::create([
             'nama_produk' => $request->nama_produk,
@@ -43,7 +45,7 @@ class PenjualController extends Controller
             'harga_produk' => $request->harga_produk,
             'stok_produk' => $request->stok_produk,
             'deskripsi_produk' => $request->deskripsi_produk,
-            'gambar_produk' => $gambarPath,
+            'gambar_produk' => $namaFile,
             'id_pengguna' => auth()->id(),
         ]);
 
@@ -69,15 +71,16 @@ class PenjualController extends Controller
             'gambar_produk' => 'nullable|image|max:2048',
         ]);
 
-        // Jika ada gambar baru diupload
         if ($request->hasFile('gambar_produk')) {
-            // Optional: hapus gambar lama
-            if ($produk->gambar_produk && \Storage::exists('public/' . $produk->gambar_produk)) {
-                \Storage::delete('public/' . $produk->gambar_produk);
+            if ($produk->gambar_produk && file_exists(public_path('produk/' . $produk->gambar_produk))) {
+                unlink(public_path('produk/' . $produk->gambar_produk));
             }
 
-            $path = $request->file('gambar_produk')->store('produk', 'public');
-            $validated['gambar_produk'] = $path;
+            $gambarFile = $request->file('gambar_produk');
+            $namaFile = uniqid() . '.' . $gambarFile->getClientOriginalExtension();
+            $gambarFile->move(public_path('produk'), $namaFile);
+
+            $validated['gambar_produk'] = $namaFile;
         }
 
         $produk->update($validated);

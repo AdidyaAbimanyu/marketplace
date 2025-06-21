@@ -78,7 +78,7 @@
                                 style="width: 40px;">
                             <p class="mt-2 text-muted">Upload Foto</p>
                         </label>
-                        <input type="file" name="gambar_produk" id="gambar_produk" class="d-none" accept="image/*"
+                        <input type="file" name="gambar_produk" id="gambar_produk" accept="image/*"
                             required>
 
                         <!-- PREVIEW -->

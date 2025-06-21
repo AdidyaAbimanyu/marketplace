@@ -84,7 +84,7 @@
                             <div class="p-3 bg-white rounded shadow-sm w-100 d-flex flex-column justify-content-between features-item"
                                 style="position: relative; height: 100%; min-height: 500px; width: 100%; min-width: 300px;">
 
-                                <img src="{{ secure_asset($topProduct->gambar_produk) }}"
+                                <img src="{{ secure_asset('public/' . $topProduct->gambar_produk) }}"
                                     alt="{{ $topProduct->nama_produk }}" class="img-fluid d-block mx-auto">
 
                                 <div class="mt-2 text-center">
@@ -130,7 +130,7 @@
                                         <div class="p-3 bg-white rounded shadow-sm position-relative d-flex flex-column justify-content-between features-item"
                                             style="height: 100%; min-height: 50px; width: 100%;">
 
-                                            <img src="{{ secure_asset($product->gambar_produk) }}"
+                                            <img src="{{ secure_asset('public/' . $product->gambar_produk) }}"
                                                 alt="{{ $product->nama_produk }}" class="img-fluid d-block mx-auto"
                                                 style="max-height: 180px; object-fit: contain;">
 

@@ -23,7 +23,7 @@
                                     <tr>
                                         <td class="d-flex align-items-center gap-3">
                                         <td class="d-flex align-items-center gap-3">
-                                            <img src="{{ secure_asset($cart->produk->gambar_produk) }}"
+                                            <img src="{{ secure_asset('public/' . $cart->produk->gambar_produk) }}"
                                                 alt="Product Image" width="50">
                                             <span>{{ $cart->produk->nama_produk }}</span>
                                         </td>

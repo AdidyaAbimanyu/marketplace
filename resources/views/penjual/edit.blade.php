@@ -87,7 +87,7 @@
 
                         <!-- PREVIEW -->
                         <div class="mt-3">
-                            <img id="preview-image" src="{{ asset('storage/' . $produk->gambar_produk) }}"
+                            <img id="preview-image" src="{{ secure_asset('storage/' . $produk->gambar_produk) }}"
                                 alt="Preview Gambar" class="img-fluid" style="max-height: 200px; border-radius: 8px;">
                         </div>
                     </div>

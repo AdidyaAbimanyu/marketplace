@@ -22,7 +22,7 @@
                                 @foreach ($carts as $cart)
                                     <tr>
                                         <td class="d-flex align-items-center gap-3">
-                                            <img src="{{ asset('storage/' . $cart->produk->gambar_produk) }}"
+                                            <img src="{{ secure_asset('storage/' . $cart->produk->gambar_produk) }}"
                                                 alt="Product Image" width="50">
                                             <span>{{ $cart->produk->nama_produk }}</span>
                                         </td>

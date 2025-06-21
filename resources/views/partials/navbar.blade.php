@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg shadow-sm fixed-top" style="background-color: #D5EDFF; padding: 10px;">
     <div class="container d-flex justify-content-between align-items-center">
         <a class="navbar-brand" href="{{ route('home') }}">
-            <img src="{{ asset('static/images/icon.png') }}" alt="SPOT" width="80" height="80">
+            <img src="{{ secure_asset('static/images/icon.png') }}" alt="SPOT" width="80" height="80">
         </a>
 
         <form action="{{ route('search') }}" method="GET" class="d-flex mx-auto" role="search" style="width: 50%;">
@@ -16,7 +16,7 @@
                 @if (Auth::user()->role == 'admin')
                     <button class="me-3 position-relative btn btn-link p-0" data-bs-toggle="modal"
                         data-bs-target="#approveModal">
-                        <img src="{{ asset('static/images/bell.png') }}" alt="Cart" width="30">
+                        <img src="{{ secure_asset('static/images/bell.png') }}" alt="Cart" width="30">
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ $waitingCount ?? 0 }}
                         </span>
@@ -24,7 +24,7 @@
                 @endif
 
                 <a href="{{ route('cart.index') }}" class="me-3 position-relative">
-                    <img src="{{ asset('static/images/cart.png') }}" alt="Cart" width="30">
+                    <img src="{{ secure_asset('static/images/cart.png') }}" alt="Cart" width="30">
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{ $cartCount ?? 0 }}
                     </span>
@@ -33,7 +33,7 @@
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none" id="userDropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('static/images/profile.png') }}" alt="User" width="30">
+                        <img src="{{ secure_asset('static/images/profile.png') }}" alt="User" width="30">
                         <i class="bi bi-caret-down-fill text-dark"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">

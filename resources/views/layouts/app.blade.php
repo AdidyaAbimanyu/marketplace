@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <link rel="icon" href="{{ asset('static/images/icon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ secure_asset('static/images/icon.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <link href="{{ asset('static/css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('static/css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>

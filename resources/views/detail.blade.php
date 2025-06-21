@@ -113,7 +113,7 @@
                                     </div>
                                     <strong>{{ Str::limit($review->pengguna->nama_pengguna, 5, '**') }}</strong>
                                     <p class="mb-0">{{ $review->isi_review }}</p>
-                                    <img src="{{ secure_asset('public/' . $review->gambar_review) }}" alt="Review Image"
+                                    <img src="{{ secure_asset($review->gambar_review) }}" alt="Review Image"
                                         width="50" height="50" class="rounded shadow-sm" style="object-fit: cover;">
                                 </div>
                             @empty

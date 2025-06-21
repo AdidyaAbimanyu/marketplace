@@ -5,12 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\PenjualController;
 use App\Http\Controllers\ProdukController;
-use Illuminate\Support\Facades\Artisan;
-
-Route::get('/run-storage-link', function () {
-    Artisan::call('storage:link');
-    return 'Storage link created!';
-});
 
 Route::get('/', [PembeliController::class, 'index'])->name('home');
 

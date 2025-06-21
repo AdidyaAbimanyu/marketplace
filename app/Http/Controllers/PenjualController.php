@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PenjualController extends Controller
 {
@@ -36,7 +35,7 @@ class PenjualController extends Controller
         ]);
 
         $gambarFile = $request->file('gambar_produk');
-        $namaFile = uniqid() . '.' . $gambarFile->getClientOriginalExtension();
+        $namaFile = 'produk/' . uniqid() . '.' . $gambarFile->getClientOriginalExtension();
         $gambarFile->move(public_path('produk'), $namaFile);
 
         Produk::create([
@@ -77,7 +76,7 @@ class PenjualController extends Controller
             }
 
             $gambarFile = $request->file('gambar_produk');
-            $namaFile = uniqid() . '.' . $gambarFile->getClientOriginalExtension();
+            $namaFile = 'produk/' . uniqid() . '.' . $gambarFile->getClientOriginalExtension();
             $gambarFile->move(public_path('produk'), $namaFile);
 
             $validated['gambar_produk'] = $namaFile;

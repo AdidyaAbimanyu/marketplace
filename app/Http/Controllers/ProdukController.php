@@ -315,7 +315,7 @@ class ProdukController extends Controller
         $fotoPath = null;
         if ($request->hasFile('gambar_review')) {
             $file = $request->file('gambar_review');
-            $namaFile = uniqid() . '.' . $file->getClientOriginalExtension();
+            $namaFile = 'review/' . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('review'), $namaFile);
             $fotoPath = $namaFile;
         }
@@ -347,7 +347,7 @@ class ProdukController extends Controller
 
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
-            $namaFile = uniqid() . '.' . $photo->getClientOriginalExtension();
+            $namaFile = 'review/' . uniqid() . '.' . $photo->getClientOriginalExtension();
             $photo->move(public_path('reviews'), $namaFile);
             $review->foto = $namaFile;
         }

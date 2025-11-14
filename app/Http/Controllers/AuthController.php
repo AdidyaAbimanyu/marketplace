@@ -18,18 +18,19 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'username_pengguna' => 'required|string',
-            'password' => 'required|string',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
-        if (Auth::attempt(['username_pengguna' => $credentials['username_pengguna'], 'password' => $credentials['password']])) {
-            session()->flash('success', 'Login berhasil!');
-            return redirect()->route('home');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            dd(Auth::user()); // ➜ Lihat hasilnya!
+            return redirect('/');
         }
 
-        session()->flash('error', 'Username atau password salah.');
-        return back();
+        dd('Auth failed'); // Debug
     }
+
 
     public function register(Request $request)
     {
@@ -56,7 +57,7 @@ class AuthController extends Controller
             'nama_pengguna' => $request->nama_pengguna,
             'username_pengguna' => $request->username_pengguna,
             'alamat_pengguna' => $request->alamat_pengguna,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'role' => $request->role,
         ]);
 

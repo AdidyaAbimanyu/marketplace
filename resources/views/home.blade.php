@@ -6,10 +6,10 @@
     <div class="py-5">
         <!-- Hero Section -->
         <div class="position-relative"
-            style="min-height: 90vh; background: url('{{ secure_asset('static/images/hero.svg') }}') center center / cover no-repeat;">
+            style="min-height: 90vh; background: url('{{ asset('static/images/hero.svg') }}') center center / cover no-repeat;">
             <!-- Logo di tengah -->
             <div class="position-absolute top-50 start-50 translate-middle text-center">
-                <img src="{{ secure_asset('static/images/icon.png') }}" alt="Logo" style="width: 352px;">
+                <img src="{{ asset('static/images/icon.png') }}" alt="Logo" style="width: 352px;">
             </div>
 
             <!-- Wave di bawah -->
@@ -54,7 +54,7 @@
                     <a href="{{ route('search', ['search' => $category['name']]) }}" class="text-decoration-none text-dark">
                         <div class="category-item p-3 mt-5 rounded shadow-sm text-center d-flex flex-column align-items-center justify-content-center"
                             style="background-color: {{ $category['bg'] }}; width: 148px; height: 148px;">
-                            <img src="{{ secure_asset('static/images/' . $category['image']) }}" alt="{{ $category['name'] }}"
+                            <img src="{{ asset('static/images/' . $category['image']) }}" alt="{{ $category['name'] }}"
                                 class="img-fluid pt-3" style="max-width: 70px; max-height: 70px;">
                             <p class="mt-2 fw-bold" style="font-size: 12px;">{{ $category['name'] }}</p>
                         </div>
@@ -84,7 +84,7 @@
                             <div class="p-3 bg-white rounded shadow-sm w-100 d-flex flex-column justify-content-between features-item"
                                 style="position: relative; height: 100%; min-height: 500px; width: 100%; min-width: 300px;">
 
-                                <img src="{{ secure_asset($topProduct->gambar_produk) }}"
+                                <img src="{{ asset($topProduct->gambar_produk) }}"
                                     alt="{{ $topProduct->nama_produk }}" class="img-fluid d-block mx-auto">
 
                                 <div class="mt-2 text-center">
@@ -130,7 +130,7 @@
                                         <div class="p-3 bg-white rounded shadow-sm position-relative d-flex flex-column justify-content-between features-item"
                                             style="height: 100%; min-height: 50px; width: 100%;">
 
-                                            <img src="{{ secure_asset($product->gambar_produk) }}"
+                                            <img src="{{ asset($product->gambar_produk) }}"
                                                 alt="{{ $product->nama_produk }}" class="img-fluid d-block mx-auto"
                                                 style="max-height: 180px; object-fit: contain;">
 
